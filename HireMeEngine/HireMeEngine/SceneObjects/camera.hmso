@@ -1,0 +1,13 @@
+[COMPONENTS]
+transform camera
+
+[ATTRIBUTES]
+position=:vec3:(0.0,0.0,5.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(0.0,0.0,0.0)
+cameraName=:str:main
+cameraPos=:vec3:(3,3,3)
+cameraTarget=:vec3:(0,0,0)
+cameraSensibility=:float:0.5
+cameraSpeed=:float:0.5
+cameraBehavior=:str:flying

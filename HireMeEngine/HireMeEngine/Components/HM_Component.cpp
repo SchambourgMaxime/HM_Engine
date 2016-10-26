@@ -1,0 +1,138 @@
+/************************************************/
+/*												*/
+/*	HM_Component.cpp							*/
+/*												*/
+/*	Version 1.0									*/
+/*												*/
+/*	Created : 2016-08-09						*/
+/*												*/
+/*	Last Update : 2016-08-09					*/
+/*												*/
+/*	Author : Eric Laberge, Maxime Schambourg	*/
+/*												*/
+/************************************************/
+
+/*				  PREPROCESSOR					*/
+
+#include "HM_Component.h"
+#include "../HM_SceneObject.h"
+#include "HM_TransformComponent.h"
+#include "HM_MeshComponent.h"
+#include "HM_MotionComponent.h"
+#include "HM_BoxColliderComponent.h"
+#include "HM_JoystickComponent.h"
+#include "HM_SpriteComponent.h"
+#include "HM_CameraComponent.h"
+#include "HM_HUDComponent.h"
+
+
+
+/*				 IMPLEMENTATION					*/
+
+	// --- CONSTRUCTOR & DESTRUCTOR ---
+
+/*		Constructor
+*
+*		brief : initialize the reference to the the owner of the component
+*
+*		params :
+*			- owner	(HM_SceneObject)	: Pointer to the scene object
+*										  possessing the component
+*
+**/
+HM_Component::HM_Component(HM_SceneObject* owner) : m_owner(owner)
+{
+}
+
+/*		isValid
+*
+*		overload : HM_Object
+*
+*		brief : determine if the class instance is usable or unset
+*
+*		return : bool -> indicates if the item can be used or not
+*
+**/
+bool HM_Component::isValid() const
+{
+
+	return m_owner != NULL;
+
+}
+
+bool HM_Component::isActive() const
+{
+
+	return active;
+
+}
+
+//HM_MaterialComponent* HM_MaterialComponent::create(HM_SceneObject* owner) const
+//{
+//
+//	return new HM_MaterialComponent(owner);
+//
+//}
+//
+//void HM_MaterialComponent::setup(std::map<std::string, void*> descr)
+//{
+//
+//	std::map<std::string, void*>::const_iterator iter;
+//	iter = descr.find("textureFile");
+//
+//	if (iter != descr.end())
+//		m_textureImageFile = *(static_cast<std::string*>((*iter).second));
+//
+//	if(m_isAnimated)
+//		m_texture = HM_GameMaster::instance()->getGraphicsManager()->loadTexture(m_textureImageFile, HM_VBO_DYNAMIC);
+//	else
+//		m_texture = HM_GameMaster::instance()->getGraphicsManager()->loadTexture(m_textureImageFile, HM_VBO_STATIC);
+//
+//}
+
+/*		create
+*
+*		brief : creation function for components
+*
+*		params :
+*			- key	(string)			: name of the component to create
+*			- owner	(HM_SceneObject)	: scene object owner of the new
+*										  component
+*
+*		return : HM_Component -> pointer to the created component
+*		
+**/
+HM_Component* HM_ComponentFactory::create(const std::string& key, 
+HM_SceneObject* owner) const
+{
+
+	HM_Component* temp = NULL;
+	std::map<std::string, HM_Component*>::const_iterator iter;
+	iter = m_mapToFactoryObjects.find(key);
+
+	if (iter != m_mapToFactoryObjects.end())
+		temp = ((*iter).second)->create(owner);
+
+	return temp;
+
+}
+
+/*		Constructor
+*
+*		brief : fills the map of pointer to the available component classes
+*
+**/
+HM_ComponentFactory::HM_ComponentFactory()
+{
+
+	m_mapToFactoryObjects["transform"] = new HM_TransformComponent(NULL);
+	m_mapToFactoryObjects["mesh"] = new HM_MeshComponent(NULL);
+	//m_mapToFactoryObjects["material"] = new HM_MaterialComponent(NULL);
+	m_mapToFactoryObjects["motion"] = new HM_MotionComponent(NULL);
+	m_mapToFactoryObjects["boxCollider"] = new HM_BoxColliderComponent(NULL);
+	m_mapToFactoryObjects["joystick"] = new HM_JoystickComponent(NULL);
+	m_mapToFactoryObjects["sprite"] = new HM_SpriteComponent(NULL);
+	m_mapToFactoryObjects["camera"] = new HM_CameraComponent(NULL);
+	m_mapToFactoryObjects["hud"] = new HM_HUDComponent(NULL);
+
+}
