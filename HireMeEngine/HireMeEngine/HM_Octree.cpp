@@ -29,8 +29,8 @@ HM_Octree::HM_Octree(unsigned int elementsPerNodeLimit, HM_Cube root)
 
 	m_root.region = root;
 
-	for (unsigned int i = 0; i < 8; i++)
-		(m_root.children­)[i]­ = NULL;
+	//for (unsigned int i = 0; i < 8; i++)
+	//	m_root.children­[i]­ = NULL;
 
 }
 
@@ -91,7 +91,7 @@ unsigned int HM_Octree::recursiveBuild(Node* node)
 
 		}
 
-		return;
+		return 0;
 
 	}
 
