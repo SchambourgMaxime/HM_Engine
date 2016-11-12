@@ -47,6 +47,7 @@ public:
 	HM_MeshComponent* create(HM_SceneObject* owner) const override;
 	// Initialize the mesh, texture and shader of the mesh component
 	virtual bool setup(std::map<std::string, void*> descr) override;
+	virtual bool onSetupEnd(std::map<std::string, void*> descr) override;
 
 	// display the mesh with the texture using the shader
 	virtual void display() override;
@@ -56,6 +57,10 @@ public:
 	HM_Mesh* const getMesh() const;
 
 	HM_Cube const getBoundingBox() const;
+	HM_Cube const getScaledBoundingBox() const;
+
+	unsigned int getLinearCopyNumber() const;
+	glm::vec3 getLinearcopyOffest() const;
 
 protected:
 	/** Private functions **/
@@ -104,5 +109,7 @@ protected:
 
 	// Offset of copies
 	glm::vec3 m_linearCopyOffset;
+	// Axis copy
+	glm::vec3 m_axisLinearCopy;
 
 };

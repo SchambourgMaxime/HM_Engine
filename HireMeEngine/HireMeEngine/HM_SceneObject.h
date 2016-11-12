@@ -27,6 +27,7 @@ class HM_GameMaster;
 class HM_Component;
 
 
+
 /*				     HEADER						*/
 
 class HM_SceneObject : HM_Object
@@ -58,14 +59,26 @@ public:
 	// Create and load every component and its data
 	bool load();
 
+	void onUpdateStart();
+	void update();
+	void onUpdateEnd();
+
 	// Display all the scene objects
 	void display();
 
-	void update();
+
+	/** Public variables **/
+
+	glm::vec3& m_position;
+	glm::vec3& m_eulerAngles;
+	glm::vec3& m_scale;
+
 
 
 private:
 	/** Private variables **/
+
+	static const std::vector<std::string> updateComponentList;
 
 	// Name of the scene object
 	std::string m_name;

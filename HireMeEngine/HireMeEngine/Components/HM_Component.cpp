@@ -25,6 +25,7 @@
 #include "HM_CameraComponent.h"
 #include "HM_HUDComponent.h"
 
+#include "../MaximeSchambourgAwesomeApplication/MSAA_Character.h"
 
 
 /*				 IMPLEMENTATION					*/
@@ -66,29 +67,6 @@ bool HM_Component::isActive() const
 	return active;
 
 }
-
-//HM_MaterialComponent* HM_MaterialComponent::create(HM_SceneObject* owner) const
-//{
-//
-//	return new HM_MaterialComponent(owner);
-//
-//}
-//
-//void HM_MaterialComponent::setup(std::map<std::string, void*> descr)
-//{
-//
-//	std::map<std::string, void*>::const_iterator iter;
-//	iter = descr.find("textureFile");
-//
-//	if (iter != descr.end())
-//		m_textureImageFile = *(static_cast<std::string*>((*iter).second));
-//
-//	if(m_isAnimated)
-//		m_texture = HM_GameMaster::instance()->getGraphicsManager()->loadTexture(m_textureImageFile, HM_VBO_DYNAMIC);
-//	else
-//		m_texture = HM_GameMaster::instance()->getGraphicsManager()->loadTexture(m_textureImageFile, HM_VBO_STATIC);
-//
-//}
 
 /*		create
 *
@@ -134,5 +112,7 @@ HM_ComponentFactory::HM_ComponentFactory()
 	m_mapToFactoryObjects["sprite"] = new HM_SpriteComponent(NULL);
 	m_mapToFactoryObjects["camera"] = new HM_CameraComponent(NULL);
 	m_mapToFactoryObjects["hud"] = new HM_HUDComponent(NULL);
+
+	m_mapToFactoryObjects["character"] = new MSAA_Character(NULL);
 
 }

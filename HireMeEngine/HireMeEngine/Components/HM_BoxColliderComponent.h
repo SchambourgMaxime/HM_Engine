@@ -18,6 +18,8 @@
 
 #include "HM_Component.h"
 
+#include <vector>
+
 
 
 /*				     HEADER						*/
@@ -34,28 +36,45 @@ public:
 
 	// Constructor
 	HM_BoxColliderComponent(HM_SceneObject* owner) : HM_Component(owner),
-	m_box(HM_Cube()), m_isTrigger(false), m_isBoundingBox(false) {}
+	m_originalBox(HM_Cube()), m_isTrigger(false), m_isBoundingBox(false) {}
 
 	// Create an instance of the box collider component for the factory
 	HM_BoxColliderComponent* create(HM_SceneObject* owner) const override;
 	// Initialize the cube of the box collider
 	bool setup(std::map<std::string, void*> descr) override;
 	// Perform last setup when all components are setup
-	virtual bool onSetupEnd() override;
+	virtual bool onSetupEnd(std::map<std::string, void*> descr) override;
+
+
+	// TODO : check collision
+	virtual void onUpdateStart() override;
+	virtual void update() override;
+	virtual void onUpdateEnd() override;
 
 	// No display for the box collider
 	virtual void display() override;
-	// TODO : check collision
-	virtual void update() override;
-	
 
 private:
 
-	// Behaviour during collision
-	void onCollision(HM_BoxColliderComponent const & other);
+	static std::vector<HM_BoxColliderComponent*> colliders;
 
-	// Cube defining the hit box
-	HM_Cube m_box;
+	// Behavior during collision
+	void onCollision(HM_BoxColliderComponent& other);
+
+	void recalculateTransformedBox();
+
+	// Cube defining the original hit box
+	HM_Cube m_originalBox;
+
+
+	// Cube defining the transformed hit box
+	HM_Cube m_transformedBox;
+	// Cube defining the previous transformed hit box
+	HM_Cube m_previousTransformedBox;
+
+	std::vector<HM_Cube> m_additionalTransformedBoxes;
+	std::vector<HM_Cube> m_additionalpreviousTransformedBoxes;
+
 
 	// Boolean to determine physical aspect of collider
 	bool m_isTrigger;

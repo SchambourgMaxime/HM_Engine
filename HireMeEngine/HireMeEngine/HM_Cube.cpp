@@ -17,6 +17,7 @@
 #include "HM_Cube.h"
 #include "../HM_GameMaster.h"
 #include "../HM_GraphicsManager.h"
+#include "../HM_Math.h"
 
 
 
@@ -53,8 +54,116 @@ HM_Cube::HM_Cube(glm::vec3 vecMax, glm::vec3 vecMin) :
 
 }
 
+HM_Cube::HM_Cube(HM_Cube const & other)
+{
+
+	copyCube(other);
+
+}
+
 HM_Cube::~HM_Cube()
 {
+}
+
+HM_Cube& HM_Cube::operator=(HM_Cube const & other)
+{
+
+	copyCube(other);
+
+	return *this;
+
+}
+
+HM_Cube HM_Cube::operator*(float factor) const
+{
+
+	return HM_Cube(m_xMax * factor, m_xMin * factor,
+		m_yMax * factor, m_yMin * factor,
+		m_zMax * factor, m_zMin * factor);
+
+}
+
+HM_Cube HM_Cube::operator*(glm::vec3 factor) const
+{
+
+	return HM_Cube(m_xMax * factor.x, m_xMin * factor.x,
+		m_yMax * factor.y, m_yMin * factor.y,
+		m_zMax * factor.z, m_zMin * factor.z);
+
+}
+
+HM_Cube HM_Cube::operator+(float factor) const
+{
+
+	return HM_Cube(m_xMax + factor, m_xMin + factor,
+		m_yMax + factor, m_yMin + factor,
+		m_zMax + factor, m_zMin + factor);
+
+}
+
+HM_Cube HM_Cube::operator+(glm::vec3 factor) const
+{
+
+	return HM_Cube(m_xMax + factor.x, m_xMin + factor.x,
+		m_yMax + factor.y, m_yMin + factor.y,
+		m_zMax + factor.z, m_zMin + factor.z);
+
+}
+
+HM_Cube HM_Cube::operator*=(float factor)
+{
+
+	m_xMax *= factor;
+	m_xMin *= factor;
+	m_yMax *= factor;
+	m_yMin *= factor;
+	m_zMax *= factor;
+	m_zMin *= factor;
+
+	return HM_Cube(*this);
+
+}
+
+HM_Cube HM_Cube::operator*=(glm::vec3 factor)
+{
+
+	m_xMax *= factor.x;
+	m_xMin *= factor.x;
+	m_yMax *= factor.y;
+	m_yMin *= factor.y;
+	m_zMax *= factor.z;
+	m_zMin *= factor.z;
+
+	return HM_Cube(*this);
+
+}
+
+HM_Cube HM_Cube::operator+=(float factor)
+{
+
+	m_xMax += factor;
+	m_xMin += factor;
+	m_yMax += factor;
+	m_yMin += factor;
+	m_zMax += factor;
+	m_zMin += factor;
+
+	return HM_Cube(*this);
+
+}
+
+HM_Cube HM_Cube::operator+=(glm::vec3 factor)
+{
+
+	m_xMax += factor.x;
+	m_xMin += factor.x;
+	m_yMax += factor.y;
+	m_yMin += factor.y;
+	m_zMax += factor.z;
+	m_zMin += factor.z;
+
+	return HM_Cube(*this);
+
 }
 
 float HM_Cube::getXMax() const
@@ -214,42 +323,6 @@ void HM_Cube::setMax(glm::vec3 max)
 
 }
 
-HM_Cube& HM_Cube::operator=(HM_Cube const & other)
-{
-	
-	m_xMax = other.m_xMax;
-	m_xMin = other.m_xMin;
-
-	m_yMax = other.m_yMax;
-	m_yMin = other.m_yMin;
-
-	m_zMax = other.m_zMax;
-	m_zMin = other.m_zMin;
-
-	setupSize(m_xMax, m_xMin, m_yMax, m_yMin, m_zMax, m_zMin);
-
-	return *this;
-
-}
-
-HM_Cube HM_Cube::operator*(float factor) const
-{
-
-	return HM_Cube(m_xMax * factor, m_xMin * factor,
-				   m_yMax * factor, m_yMin * factor,
-				   m_zMax * factor, m_zMin * factor);
-
-}
-
-HM_Cube HM_Cube::operator*(glm::vec3 factor) const
-{
-
-	return HM_Cube(m_xMax * factor.x, m_xMin * factor.x,
-				   m_yMax * factor.y, m_yMin * factor.y,
-				   m_zMax * factor.z, m_zMin * factor.z);
-
-}
-
 bool HM_Cube::intersectsWith(HM_Cube const & other)
 {
 	
@@ -259,12 +332,150 @@ bool HM_Cube::intersectsWith(HM_Cube const & other)
 
 }
 
-void HM_Cube::draw(glm::vec3 position) const
+HM_Cube HM_Cube::getRotatedCube(glm::vec3 eulerAngles) const
 {
 
-	float xMin = m_xMin + position.x; float xMax = m_xMax + position.x;
-	float yMin = m_yMin + position.y; float yMax = m_yMax + position.y;
-	float zMin = m_zMin + position.z; float zMax = m_zMax + position.z;
+	HM_Cube returnCube(*this);
+
+	returnCube.rotate(eulerAngles);
+
+	return returnCube;
+
+}
+
+void HM_Cube::rotate(glm::vec3 eulerAngles)
+{
+	if(eulerAngles.x != 0.0f)
+		rotateOnX(eulerAngles.x);
+	if (eulerAngles.y != 0.0f)
+		rotateOnY(eulerAngles.y);
+	if (eulerAngles.z != 0.0f)
+		rotateOnZ(eulerAngles.z);
+
+}
+
+void HM_Cube::rotateOnX(float theta)
+{
+
+	float sin_t = sin(theta * (float)M_PI / 180);
+	float cos_t = cos(theta * (float)M_PI / 180);
+
+	float yMax = 0, yMin = 0;
+	float zMax = 0, zMin = 0;
+
+	std::vector<glm::vec3> vertices = getvertices();
+
+	for (unsigned int i = 0; i < vertices.size(); i++)
+	{
+
+		glm::vec3 rotatedVertex = hmm::rotateVertexOnX(vertices[i], theta);
+
+		if(rotatedVertex.y > yMax)
+			yMax = rotatedVertex.y;
+		else if(rotatedVertex.y < yMin)
+			yMin = rotatedVertex.y;
+
+		if (rotatedVertex.z > zMax)
+			zMax = rotatedVertex.z;
+		else if (rotatedVertex.z < zMin)
+			zMin = rotatedVertex.z;
+	}
+
+	m_yMax = yMax;
+	m_zMax = zMax;
+	m_yMin = yMin;
+	m_zMin = zMin;
+
+}
+
+void HM_Cube::rotateOnY(float theta)
+{
+
+	theta = -theta;
+
+	float sin_t = sin(theta * (float)M_PI / 180);
+	float cos_t = cos(theta * (float)M_PI / 180);
+
+	float xMax = 0, xMin = 0;
+	float zMax = 0, zMin = 0;
+
+	std::vector<glm::vec3> vertices = getvertices();
+
+	for (unsigned int i = 0; i < vertices.size(); i++)
+	{
+
+		glm::vec3 rotatedVertex = hmm::rotateVertexOnY(vertices[i], theta);
+
+		if (rotatedVertex.x > xMax)
+			xMax = rotatedVertex.x;
+		else if (rotatedVertex.x < xMin)
+			xMin = rotatedVertex.x;
+
+		if (rotatedVertex.z > zMax)
+			zMax = rotatedVertex.z;
+		else if (rotatedVertex.z < zMin)
+			zMin = rotatedVertex.z;
+	}
+
+	m_xMax = xMax;
+	m_zMax = zMax;
+	m_xMin = xMin;
+	m_zMin = zMin;
+
+}
+
+void HM_Cube::rotateOnZ(float theta)
+{
+
+	float sin_t = sin(theta * (float)M_PI / 180);
+	float cos_t = cos(theta * (float)M_PI / 180);
+
+	float xMax = 0, xMin = 0;
+	float yMax = 0, yMin = 0;
+
+	std::vector<glm::vec3> vertices = getvertices();
+
+	for (unsigned int i = 0; i < vertices.size(); i++)
+	{
+
+		glm::vec3 vertice = vertices[i];
+		float xPrime = vertice.x * cos_t - vertice.y * sin_t;
+		float yPrime = vertice.y * cos_t + vertice.x * sin_t;
+
+		if (xPrime > xMax)
+			xMax = xPrime;
+		else if (xPrime < xMin)
+			xMin = xPrime;
+
+		if (yPrime > yMax)
+			yMax = yPrime;
+		else if (yPrime < yMin)
+			yMin = yPrime;
+	}
+
+	m_xMax = xMax;
+	m_yMax = yMax;
+	m_xMin = xMin;
+	m_yMin = yMin;
+
+}
+
+void HM_Cube::draw(glm::vec3 position, glm::vec3 eulerAngles, glm::vec3 scale) const
+{
+
+	HM_Cube temp(*this);
+
+	if(eulerAngles != glm::vec3(0.0f, 0.0f, 0.0f))
+		temp.rotate(eulerAngles);
+
+	//temp *= 4;
+
+	float xMin = temp.m_xMin + position.x;
+	float xMax = temp.m_xMax + position.x;
+	float yMin = temp.m_yMin + position.y;
+	float yMax = temp.m_yMax + position.y;
+	float zMin = temp.m_zMin + position.z;
+	float zMax = temp.m_zMax + position.z;
 
 	float vertices[] = { xMin, yMin, zMax, // 0
 						 xMin, yMax, zMax, // 1
@@ -279,19 +490,6 @@ void HM_Cube::draw(glm::vec3 position) const
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 	glEnableVertexAttribArray(0);
 
-	unsigned int triangles[] = {0, 1, 2, // face front
-								2, 3, 0, // face front
-								3, 2, 6, // face right
-								6, 7, 3, // face right
-								4, 5, 6, // face back
-								6, 7, 4, // face back
-								1, 0, 4, // face left
-								4, 5, 1, // face left
-								4, 0, 3, // face bottom
-								3, 7, 4, // face bottom
-								5, 1, 2,
-								2, 6, 5
-								};
 
 	glUseProgram(HM_GameMaster::instance()->getGraphicsManager()->
 		getDefaultShader()->getProgramID());
@@ -303,12 +501,84 @@ void HM_Cube::draw(glm::vec3 position) const
 	HM_GameMaster::instance()->getGraphicsManager()->
 		getDefaultShader()->sendMat4("modelviewProjection", modelviewProjection);
 
+	if (xMax == xMin)
+	{
+
+		unsigned int triangles[] = {0, 1,	// face front
+									1, 5,	// face front
+									5, 4,	// face front
+									4, 0,	// face front
+									};
 
 
-	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, triangles);
+		glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, triangles);
+
+	}
+	else if (yMax == yMin)
+	{
+
+		unsigned int triangles[] = {0, 4,	// face front
+									4, 7,	// face front
+									7, 3,	// face front
+									3, 0,	// face front
+									};
+
+		glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, triangles);
+
+	}
+	else if (zMax == zMin)
+	{
+
+		unsigned int triangles[] = {0, 1,	// face front
+									1, 2,	// face front
+									2, 3,	// face front
+									3, 0,	// face front
+									};
+
+		glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, triangles);
+
+	}
+	else
+	{
+
+		unsigned int triangles[] = {0, 1,	// face front
+									1, 2,	// face front
+									2, 3,	// face front
+									3, 0,	// face front
+									2, 6,	// face right
+									3, 7,	// face right
+									6, 5,	// face back
+									5, 4,	// face back
+									4, 7,	// face back
+									7, 6,	// face back
+									5, 1,	// face left
+									4, 0,	// face left
+									};
+
+		glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, triangles);
+
+	}
 
 	glUseProgram(0);
 
+
+}
+
+void HM_Cube::copyCube(HM_Cube const & other)
+{
+
+	m_xMax = other.m_xMax;
+	m_xMin = other.m_xMin;
+
+	m_yMax = other.m_yMax;
+	m_yMin = other.m_yMin;
+
+	m_zMax = other.m_zMax;
+	m_zMin = other.m_zMin;
+
+	m_width = other.m_width;
+	m_height = other.m_height;
+	m_depth = other.m_depth;
 
 }
 

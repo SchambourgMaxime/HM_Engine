@@ -50,17 +50,38 @@ public:
 	// Constructor
 	HM_Component(HM_SceneObject* owner);
 
+		/* -- CREATE -- */
 	// Create an instance of the component for the factory
 	virtual HM_Component* create(HM_SceneObject* owner) const = 0;
+
+		/* -- SETUP -- */
+	// Perform last setup when all components are setup
+	virtual bool onSetupStart(std::map<std::string, void*> descr) { return true; };
 	// Initialize the variables of the component
 	virtual bool setup(std::map<std::string, void*> descr) = 0;
 	// Perform last setup when all components are setup
-	virtual bool onSetupEnd() { return true; };
+	virtual bool onSetupEnd(std::map<std::string, void*> descr) { return true; };
 
-	// Displays the component if it can
-	virtual void display() = 0;
+		/* -- UPDATE -- */
+	// Called before everything is updated
+	virtual void onUpdateStart() {};
 	// Updates the variables of a component every frame
 	virtual void update() = 0;
+	// Called after everything is updated
+	virtual void onUpdateEnd() {};
+
+		/* -- DISPLAY -- */
+	// Called before everything is displayed
+	virtual void onDisplayStart() {};
+	// Displays the component if it can
+	virtual void display() = 0;
+	// Called after everything is displayed
+	virtual void onDisplayEnd() {};
+
+
+	// Behavior during collision
+	virtual void onCollision(HM_SceneObject* other, Direction direction) {};
+
 
 	// Object overloaded function : checks validity of object (is it usable?)
 	virtual bool isValid() const override;

@@ -41,7 +41,8 @@ public :
 	// Default constuctor
 	HM_Camera();
 	// Constructor
-	HM_Camera(glm::vec3 position, glm::vec3 targetPoint, glm::vec3 verticalAxis, float sensibility, float speed);
+	HM_Camera(glm::vec3 position, glm::vec3 targetPoint,
+	glm::vec3 verticalAxis, float sensibility, float speed);
 	// Destructor
 	~HM_Camera();
 
@@ -92,5 +93,8 @@ private :
 	float m_sensibility;
 	// Speed at which the camera moves
 	float m_speed;
+
+	bool m_speedButtonDown;
+
 };
 

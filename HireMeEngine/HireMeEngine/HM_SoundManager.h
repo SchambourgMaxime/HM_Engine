@@ -40,14 +40,14 @@ public:
 	Mix_Chunk* loadSFX(std::string sfxFilePath);
 
 	void playMusic(Mix_Music* music, bool loop = false,
-		float fadeTransitionTime = 0.0f);
+		int fadeTransitionTime = 0);
 
 	void playMusic(std::string musicFilePath, bool loop = false,
-		float fadeTransitionTime = 0.0f);
+		int fadeTransitionTime = 0);
 
 	void pauseMusic();
 
-	void stopMusic(float fadeTransitionTime = 0.0f);
+	void stopMusic(int fadeTransitionTime = 0);
 
 	void playSFX(Mix_Chunk* sfx, bool loop = false);
 

@@ -58,7 +58,8 @@ HM_Camera::HM_Camera(glm::vec3 position, glm::vec3 targetPoint,
 	m_orientation(), m_verticalAxis(verticalAxis),
 	m_lateralDisplacement(),
 	m_position(position), m_targetPoint(targetPoint),
-	m_sensibility(sensibility), m_speed(speed)
+	m_sensibility(sensibility), m_speed(speed),
+	m_speedButtonDown(false)
 {
 
 	setTargetPoint(targetPoint);
@@ -306,6 +307,26 @@ void HM_Camera::move(HM_Input const & input)
 
 		m_position = m_position - m_lateralDisplacement * m_speed;
 		m_targetPoint = m_position + m_orientation;
+
+	}
+
+	if (input.getMouseButton(0) && !m_speedButtonDown)
+	{
+
+
+		m_sensibility *= 3;
+		m_speed *= 3;
+
+		m_speedButtonDown = true;
+
+	}
+	else if (!input.getMouseButton(0) && m_speedButtonDown)
+	{
+
+		m_sensibility /= 3;
+		m_speed /= 3;
+
+		m_speedButtonDown = false;
 
 	}
 

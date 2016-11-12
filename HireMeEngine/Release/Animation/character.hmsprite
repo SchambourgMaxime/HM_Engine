@@ -1,0 +1,117 @@
+texture=test_sprites.png
+
+[FRAMES]
+:sprite:idle0 {
+position=:vec2:(6.0,127.0)
+size=:vec2:(16,35)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle1 {
+position=:vec2:(30.0,127.0)
+size=:vec2:(16,34)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle2 {
+position=:vec2:(54.0,127.0)
+size=:vec2:(16,33)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle3 {
+position=:vec2:(78.0,127.0)
+size=:vec2:(16,34)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle4 {
+position=:vec2:(100.0,127.0)
+size=:vec2:(16,33)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle5 {
+position=:vec2:(123.0,127.0)
+size=:vec2:(16,33)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:idle6 {
+position=:vec2:(145.0,127.0)
+size=:vec2:(16,34)
+pivot=:vec2:(0.5,0.0)
+}
+
+
+:sprite:walk0 {
+position=:vec2:(248.0,165.0)
+size=:vec2:(24,35)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk1 {
+position=:vec2:(273.0,169.0)
+size=:vec2:(26,31)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk2 {
+position=:vec2:(302.0,168.0)
+size=:vec2:(23,32)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk3 {
+position=:vec2:(330.0,167.0)
+size=:vec2:(21,33)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk4 {
+position=:vec2:(353.0,165.0)
+size=:vec2:(25,35)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk5 {
+position=:vec2:(379.0,169.0)
+size=:vec2:(26,31)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk6 {
+position=:vec2:(408.0,168.0)
+size=:vec2:(23,32)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:walk7 {
+position=:vec2:(436.0,166.0)
+size=:vec2:(21,34)
+pivot=:vec2:(0.5,0.0)
+}
+
+[TIMELINES]
+:tl:idle {
+0=idle0
+200=idle1
+400=idle2
+600=idle3
+800=idle4
+1000=idle5
+1200=idle6
+1400=idle0
+}
+
+:tl:walk {
+0=walk0
+100=walk1
+200=walk2
+300=walk3
+400=walk4
+500=walk5
+600=walk6
+700=walk7
+800=walk0
+}

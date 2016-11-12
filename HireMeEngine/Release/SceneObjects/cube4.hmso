@@ -1,0 +1,17 @@
+[COMPONENTS]
+transform mesh motion boxCollider joystick
+
+[ATTRIBUTES]
+position=:vec3:(0.0,0.0,50.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(1.0,1.0,1.0)
+meshFile=:str:complexhouse.obj
+textureFile=:str:complexhouse.png
+vertexShader=:str:texture.vert
+fragmentShader=:str:texture.frag
+linearCopyNumber=:int:1000
+linearCopyAxis=:vec3:(1.0,0.0,0.0)
+scaleVelocity=:vec3:(0.0,0.0,0.0)
+collider=:cube:(1.0,-1.0,1.0,-1.0,1.0,-1.0)
+joyID=:int:0
+joySpeed=:float:0.1

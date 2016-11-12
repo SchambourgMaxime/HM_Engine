@@ -149,6 +149,27 @@ void HM_Scene::launchLevel()
 
 }
 
+void HM_Scene::update()
+{
+
+	std::list<HM_SceneObject*>::const_iterator iter;
+	iter = m_sceneObjectsList.begin();
+
+	for (; iter != m_sceneObjectsList.end(); iter++)
+		(*iter)->onUpdateStart();
+
+	iter = m_sceneObjectsList.begin();
+
+	for (; iter != m_sceneObjectsList.end(); iter++)
+		(*iter)->update();
+
+	iter = m_sceneObjectsList.begin();
+
+	for (; iter != m_sceneObjectsList.end(); iter++)
+		(*iter)->onUpdateEnd();
+
+}
+
 /*		display
 *
 *		brief : Loads all the scene objects
@@ -160,18 +181,7 @@ void HM_Scene::display()
 	std::list<HM_SceneObject*>::const_iterator iter;
 	iter = m_sceneObjectsList.begin();
 
-	for(; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->display();
-
-}
-
-void HM_Scene::update()
-{
-
-	std::list<HM_SceneObject*>::const_iterator iter;
-	iter = m_sceneObjectsList.begin();
-
 	for (; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->update();
+		(*iter)->display();
 
 }

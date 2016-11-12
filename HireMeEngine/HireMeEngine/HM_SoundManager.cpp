@@ -33,14 +33,14 @@ HM_SoundManager::HM_SoundManager()
 	Mix_Music *music2 = NULL;
 
 	//Initialize SDL_mixer
-	if (Mix_OpenAudio(22000, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+	if (Mix_OpenAudio(88000, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
 	{
 		return;
 	}
 
 	music2 = Mix_LoadMUS("Nekromantik theme.mp3");
 
-	Mix_PlayMusic(music2, -1);
+	//Mix_PlayMusic(music2, -1);
 
 }
 
@@ -131,7 +131,7 @@ Mix_Chunk* HM_SoundManager::loadSFX(std::string sfxFilePath)
 }
 
 void HM_SoundManager::playMusic(Mix_Music* music, bool loop,
-	float fadeTransitionTime)
+	int fadeTransitionTime)
 {
 
 	if (fadeTransitionTime == 0.0f)
@@ -156,7 +156,7 @@ void HM_SoundManager::playMusic(Mix_Music* music, bool loop,
 }
 
 void HM_SoundManager::playMusic(std::string musicFilePath, bool loop,
-	float fadeTransitionTime)
+	int fadeTransitionTime)
 {
 
 	std::map<std::string, Mix_Music*>::const_iterator iter;
@@ -177,7 +177,7 @@ void HM_SoundManager::pauseMusic()
 
 }
 
-void HM_SoundManager::stopMusic(float fadeTransitionTime /*= 0.0f*/)
+void HM_SoundManager::stopMusic(int fadeTransitionTime)
 {
 
 	if(fadeTransitionTime == 0.0f)

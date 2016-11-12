@@ -29,9 +29,6 @@ HM_Octree::HM_Octree(unsigned int elementsPerNodeLimit, HM_Cube root)
 
 	m_root.region = root;
 
-	//for (unsigned int i = 0; i < 8; i++)
-	//	m_root.children­[i]­ = NULL;
-
 }
 
 HM_Octree::~HM_Octree()
@@ -91,9 +88,69 @@ unsigned int HM_Octree::recursiveBuild(Node* node)
 
 		}
 
+		return node->elements.size();
+
+	}
+	else
+	{
+
+		divideNode(node);
+
+		for (unsigned int i = 0; i < node->elements.size(); i++)
+			recursiveBuild(node->children­[i]);
+
 		return 0;
 
 	}
 
+	return 0;
+}
+
+void HM_Octree::divideNode(Node* node)
+{
+
+	float xMiddle = node->region.getXMin() + node->region.getWidth() / 2;
+	float yMiddle = node->region.getYMin() + node->region.getHeight() / 2;
+	float zMiddle = node->region.getZMin() + node->region.getDepth() / 2;
+
+	// Bottom front left
+	node->children­[0]->region = HM_Cube(node->region.getXMin(), xMiddle,
+										node->region.getYMin(), yMiddle,
+										node->region.getZMin(), zMiddle);
+	// Top front left
+	node->children­[1]->region = HM_Cube(node->region.getXMin(), xMiddle,
+										yMiddle, node->region.getYMax(),
+										node->region.getZMin(), zMiddle);
+	// Top back left
+	node->children­[2]->region = HM_Cube(node->region.getXMin(), xMiddle,
+										yMiddle, node->region.getYMax(),
+										zMiddle, node->region.getZMax());
+	// Bottom back left
+	node->children­[3]->region = HM_Cube(node->region.getXMin(), xMiddle,
+										node->region.getYMin(), yMiddle,
+										zMiddle, node->region.getZMax());
+	// Bottom front right
+	node->children­[4]->region = HM_Cube(xMiddle, node->region.getXMax(),
+										node->region.getYMin(), yMiddle,
+										node->region.getZMin(), zMiddle);
+	// Top front right
+	node->children­[5]->region = HM_Cube(xMiddle, node->region.getXMax(),
+										yMiddle, node->region.getYMax(),
+										node->region.getZMin(), zMiddle);
+	// Top back right
+	node->children­[6]->region = HM_Cube(xMiddle, node->region.getXMax(),
+										yMiddle, node->region.getYMax(),
+										zMiddle, node->region.getZMax());
+	// Bottom back right
+	node->children­[7]->region = HM_Cube(xMiddle, node->region.getXMax(),
+										node->region.getYMin(), yMiddle,
+										zMiddle, node->region.getZMax());
+
+	for (unsigned int i = 0; i < node->elements.size(); i++)
+	{
+
+		
+
+	}
 
 }

@@ -57,15 +57,16 @@ bool HM_TransformComponent::setup(std::map<std::string, void*> descr)
 	if (iter != descr.end())
 		m_position = hmu::getDataFromVoid<glm::vec3>((*iter).second);
 
-	m_originalPosition = m_position;
 
+	m_originalPosition = m_previousPosition = m_position;
 
 	iter = descr.find("rotation");
 
 	if (iter != descr.end())
 		m_rotation = *(static_cast<glm::vec3*>((*iter).second));
 
-	m_originalRotation = m_rotation;
+
+	m_originalRotation = m_previousRotation = m_rotation;
 
 
 	iter = descr.find("scale");
@@ -73,7 +74,8 @@ bool HM_TransformComponent::setup(std::map<std::string, void*> descr)
 	if (iter != descr.end())
 		m_scale = *(static_cast<glm::vec3*>((*iter).second));
 
-	m_originalScale = m_scale;
+
+	m_originalScale = m_previousScale = m_scale;
 
 	return true;
 
@@ -209,6 +211,124 @@ glm::vec3 HM_TransformComponent::getWorldScale() const
 	return getLocalScale();
 
 }
+
+glm::vec3 HM_TransformComponent::getPreviousLocalPosition() const
+{
+
+	return m_previousPosition;
+
+}
+
+glm::vec3 HM_TransformComponent::getPreviousLocalRotation() const
+{
+
+	return m_previousRotation;
+
+}
+
+glm::vec3 HM_TransformComponent::getPreviousLocalScale() const
+{
+
+	return m_previousScale;
+
+}
+
+glm::vec3 HM_TransformComponent::getPreviousWorldPosition() const
+{
+
+	if (!m_owner->isRootSceneObject())
+	{
+
+		HM_TransformComponent* parentTransform =
+			static_cast<HM_TransformComponent*>(
+				m_owner->getParent()->getComponent("transform"));
+
+		if (parentTransform)
+			return (parentTransform->getPreviousWorldPosition() +
+				getPreviousLocalPosition());
+
+	}
+
+	return getPreviousLocalPosition();
+
+}
+
+glm::vec3 HM_TransformComponent::getPreviousWorldRotation() const
+{
+
+	glm::vec3 rotation(0);
+
+	if (!m_owner->isRootSceneObject())
+	{
+
+		HM_TransformComponent* parentTransform =
+			static_cast<HM_TransformComponent*>(
+				m_owner->getParent()->getComponent("transform"));
+
+		if (parentTransform)
+			rotation = parentTransform->getPreviousWorldRotation() +
+				getPreviousLocalRotation();
+
+	}
+	else
+	{
+
+		rotation = getPreviousLocalRotation();
+
+	}
+
+	return rotation;
+
+}
+
+glm::vec3 HM_TransformComponent::getPreviousWorldScale() const
+{
+
+	if (!m_owner->isRootSceneObject())
+	{
+
+		HM_TransformComponent* parentTransform =
+			static_cast<HM_TransformComponent*>(
+				m_owner->getParent()->getComponent("transform"));
+
+		if (parentTransform)
+			return (parentTransform->getPreviousWorldScale() *
+				getPreviousLocalScale());
+
+	}
+
+	return getPreviousLocalScale();
+
+}
+
+void HM_TransformComponent::translate(glm::vec3 const & offset)
+{
+
+	m_previousPosition = m_position;
+
+	m_position += offset;
+
+}
+
+void HM_TransformComponent::rotate(glm::vec3 const & rotation)
+{
+
+
+	m_previousRotation = m_rotation;
+
+	m_rotation += rotation;
+
+}
+
+void HM_TransformComponent::resize(glm::vec3 const & scale)
+{
+
+	m_previousScale = m_scale;
+
+	m_scale += scale;
+
+}
+
 /*		setLocalPosition
 *
 *		params :
@@ -243,5 +363,88 @@ void HM_TransformComponent::setLocalScale(glm::vec3 const & localScale)
 {
 
 	m_scale = localScale;
+
+}
+
+void HM_TransformComponent::setLocalPositionX(float localPositionX)
+{
+
+	//m_previousPosition.x = m_position.x;
+
+	m_position.x = localPositionX;
+
+}
+
+void HM_TransformComponent::setLocalPositionY(float localPositionY)
+{
+
+	m_previousPosition.y = m_position.y;
+
+	m_position.y = localPositionY;
+
+}
+
+void HM_TransformComponent::setLocalPositionZ(float localPositionZ)
+{
+
+	//m_previousPosition.z = m_position.z;
+
+	m_position.z = localPositionZ;
+
+}
+
+
+void HM_TransformComponent::setLocalRotationX(float localRotationX)
+{
+
+	//m_previousRotation.x = m_rotation.x;
+
+	m_rotation.x = localRotationX;
+
+}
+
+void HM_TransformComponent::setLocalRotationY(float localRotationY)
+{
+
+	//m_previousRotation.y = m_rotation.y;
+
+	m_rotation.y = localRotationY;
+
+}
+
+void HM_TransformComponent::setLocalRotationZ(float localRotationZ)
+{
+
+	m_previousRotation.z = m_rotation.z;
+
+	m_rotation.z = localRotationZ;
+
+}
+
+
+void HM_TransformComponent::setLocalScaleX(float localScaleX)
+{
+
+	m_previousScale.x = m_scale.x;
+
+	m_scale.x = localScaleX;
+
+}
+
+void HM_TransformComponent::setLocalScaleY(float localScaleY)
+{
+
+	m_previousScale.y = m_scale.y;
+
+	m_scale.y = localScaleY;
+
+}
+
+void HM_TransformComponent::setLocalScaleZ(float localScaleZ)
+{
+
+	m_previousScale.z = m_scale.z;
+
+	m_scale.z = localScaleZ;
 
 }

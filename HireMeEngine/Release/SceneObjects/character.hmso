@@ -1,0 +1,18 @@
+[COMPONENTS]
+transform character motion sprite boxCollider
+
+[ATTRIBUTES]
+position=:vec3:(-2.0,3.0,1.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(0.1,0.1,0.1)
+jumpStrength=:float:20.0f;
+maxJumpStrength=:float:30.0f
+speed=:float:10.0f;
+spriteName=:str:player
+spriteFile=:str:character.hmsprite
+spriteTextureFile=:str:test_sprites.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag
+
+[CHILDREN]
+camera

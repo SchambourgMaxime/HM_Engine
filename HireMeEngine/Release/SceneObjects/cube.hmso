@@ -1,0 +1,13 @@
+[COMPONENTS]
+transform motion sprite boxCollider
+
+[ATTRIBUTES]
+position=:vec3:(0.0,5.0,0.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(0.1,0.1,0.1)
+translateVelocity=:vec3:(0.0,-0.5, 0.0)
+spriteName=:str:player
+spriteFile=:str:character.hmsprite
+spriteTextureFile=:str:test_sprites.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag

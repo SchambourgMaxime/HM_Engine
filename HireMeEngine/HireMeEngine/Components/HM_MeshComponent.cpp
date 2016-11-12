@@ -16,6 +16,7 @@
 
 #include "HM_MeshComponent.h"
 #include "HM_TransformComponent.h"
+#include "../HM_Math.h"
 
 
 
@@ -78,6 +79,77 @@ bool HM_MeshComponent::setup(std::map<std::string, void*> descr)
 
 }
 
+bool HM_MeshComponent::onSetupEnd(std::map<std::string, void*> descr)
+{
+
+	if(m_linearCopyNumber > 1)
+	{
+
+		HM_Component* componentTransform =
+			m_owner->getComponent("transform");
+
+		if (componentTransform)
+		{
+
+			HM_TransformComponent* transform =
+				static_cast<HM_TransformComponent*>(componentTransform);
+
+			if (transform)
+			{
+
+				std::map<std::string, void*>::const_iterator iter =
+					descr.find("linearCopyAxis"); // "linearCopyAxis"
+
+				if (iter != descr.end())
+				{
+
+				glm::vec3 axisCopy(hmu::getDataFromVoid<glm::vec3>(
+					(*iter).second));
+
+				m_linearCopyOffset = glm::vec3(
+					axisCopy.x > 0 ? axisCopy.x *
+					(m_pMesh->getBoundingBox().getXMax() +
+						m_pMesh->getBoundingBox().getWidth() -
+						m_pMesh->getBoundingBox().getXMax()) :
+					-axisCopy.x *
+					(m_pMesh->getBoundingBox().getXMin() -
+						m_pMesh->getBoundingBox().getWidth() -
+						m_pMesh->getBoundingBox().getXMin()),
+					axisCopy.y > 0 ? axisCopy.y *
+					(m_pMesh->getBoundingBox().getYMax() +
+						m_pMesh->getBoundingBox().getHeight() -
+						m_pMesh->getBoundingBox().getYMax()) :
+					-axisCopy.y *
+					(m_pMesh->getBoundingBox().getYMin() -
+						m_pMesh->getBoundingBox().getHeight()
+						- m_pMesh->getBoundingBox().getYMin()),
+					axisCopy.z > 0 ? axisCopy.z *
+					(m_pMesh->getBoundingBox().getZMax() +
+						m_pMesh->getBoundingBox().getDepth() -
+						m_pMesh->getBoundingBox().getZMax()) :
+					-axisCopy.z *
+					(m_pMesh->getBoundingBox().getZMin() -
+						m_pMesh->getBoundingBox().getDepth() -
+						m_pMesh->getBoundingBox().getZMin())
+				);
+
+				m_linearCopyOffset *= transform->getLocalScale();
+
+				m_linearCopyOffset = hmm::rotateVertexOnX(m_linearCopyOffset, transform->getLocalRotation().x);
+				m_linearCopyOffset = hmm::rotateVertexOnY(m_linearCopyOffset, transform->getLocalRotation().y);
+				m_linearCopyOffset = hmm::rotateVertexOnZ(m_linearCopyOffset, transform->getLocalRotation().z);
+
+			}
+
+		}
+
+	}
+	
+	return true;
+
+	}
+}
+
 /*		display
 *
 *		brief : display the mesh with the texture using the shader
@@ -103,13 +175,13 @@ void HM_MeshComponent::display()
 
 	}
 
-	glm::vec3 actualLinearCopyOffset = m_linearCopyOffset * worldScale;
+	glm::vec3 actualLinearCopyOffset = m_linearCopyOffset;
 
 	for (unsigned int i = 0; i < m_linearCopyNumber; i++)
 	{
 
 		if (m_pGraphicsManager->isVisibleByCamera(
-				m_pMesh->getBoundingBox() * worldScale,
+				m_pMesh->getBoundingBox(),
 				worldPosition + (actualLinearCopyOffset * (float)i)))
 		{
 
@@ -145,6 +217,13 @@ HM_Mesh* const HM_MeshComponent::getMesh() const
 HM_Cube const HM_MeshComponent::getBoundingBox() const
 {
 
+	return m_pMesh->getBoundingBox();
+
+}
+
+HM_Cube const HM_MeshComponent::getScaledBoundingBox() const
+{
+
 	HM_Component* componentTransform = m_owner->getComponent("transform");
 
 	if(componentTransform)
@@ -160,6 +239,20 @@ HM_Cube const HM_MeshComponent::getBoundingBox() const
 	}
 
 	return m_pMesh->getBoundingBox();
+}
+
+unsigned int HM_MeshComponent::getLinearCopyNumber() const
+{
+
+	return m_linearCopyNumber;
+
+}
+
+glm::vec3 HM_MeshComponent::getLinearcopyOffest() const
+{
+
+	return m_linearCopyOffset;
+
 }
 
 /*		setupMesh
@@ -380,35 +473,7 @@ bool HM_MeshComponent::setupLinearCopy(std::string attribute1Name,
 			if (iter != descr.end())
 			{
 
-				glm::vec3 axisCopy(hmu::getDataFromVoid<glm::vec3>(
-					(*iter).second));
 
-				m_linearCopyOffset = glm::vec3(
-					axisCopy.x > 0 ? axisCopy.x *
-					(m_pMesh->getBoundingBox().getXMax() +
-						m_pMesh->getBoundingBox().getWidth() -
-							m_pMesh->getBoundingBox().getXMax()):
-					-axisCopy.x *
-					(m_pMesh->getBoundingBox().getXMin() -
-						m_pMesh->getBoundingBox().getWidth() -
-							m_pMesh->getBoundingBox().getXMin()),
-					axisCopy.y > 0 ? axisCopy.y *
-					(m_pMesh->getBoundingBox().getYMax() +
-						m_pMesh->getBoundingBox().getHeight() -
-							m_pMesh->getBoundingBox().getYMax()) :
-					-axisCopy.y *
-					(m_pMesh->getBoundingBox().getYMin() -
-						m_pMesh->getBoundingBox().getHeight()
-							- m_pMesh->getBoundingBox().getYMin()),
-					axisCopy.z > 0 ? axisCopy.z *
-					(m_pMesh->getBoundingBox().getZMax() +
-						m_pMesh->getBoundingBox().getDepth() -
-							m_pMesh->getBoundingBox().getZMax()) :
-					-axisCopy.z *
-					(m_pMesh->getBoundingBox().getZMin() -
-						m_pMesh->getBoundingBox().getDepth() -
-							m_pMesh->getBoundingBox().getZMin())
-				);
 
 			}
 			else

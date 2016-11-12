@@ -77,21 +77,13 @@ bool HM_MotionComponent::setup(std::map<std::string, void*> descr)
 
 	m_originalScalingVelocity = m_scalingVelocity;
 
-	HM_Component* meshcomponent = m_owner->getComponent("mesh");
-
-
-	m_timeLastFrame = 0;
+	m_timeLastFrame = SDL_GetTicks();
 
 	return true;
 
 }
 
-/*		update
-*
-*		brief : updates the transform of the scene object
-*
-**/
-void HM_MotionComponent::update()
+void HM_MotionComponent::onUpdateStart()
 {
 
 	if (m_translationVelocity.length() != 0 ||
@@ -111,22 +103,76 @@ void HM_MotionComponent::update()
 					m_owner->getComponent("transform"));
 
 			if (m_translationVelocity.length() != 0)
-				transform->setLocalPosition(transform->getLocalPosition() +
-					(m_translationVelocity * ((deltaTime / 1000.0f))));
+			{
+
+				m_velocity = (m_translationVelocity * ((deltaTime / 1000.0f)));
+
+				transform->translate(m_velocity);
+
+			}
 
 			if (m_rotationVelocity.length() != 0)
-				transform->setLocalRotation(transform->getLocalRotation() +
-					(m_rotationVelocity * (deltaTime / 1000.0f)));
+				transform->rotate(
+				(m_rotationVelocity * (deltaTime / 1000.0f)));
 
-			if(m_scalingVelocity.length() != 0)
-				transform->setLocalScale(transform->getLocalScale() +
-					(m_scalingVelocity * (deltaTime / 1000.0f)));
+			if (m_scalingVelocity.length() != 0)
+				transform->resize(
+				(m_scalingVelocity * (deltaTime / 1000.0f)));
 
 		}
 
 		m_timeLastFrame = time;
 
 	}
+
+}
+
+glm::vec3 HM_MotionComponent::getVelocity() const
+{
+
+	return m_velocity;
+
+}
+
+void HM_MotionComponent::setTranslationvelocityX(float translationVelocityX)
+{
+
+	m_translationVelocity.x = translationVelocityX;
+
+}
+
+void HM_MotionComponent::setTranslationvelocityY(float translationVelocityY)
+{
+
+	m_translationVelocity.y = translationVelocityY;
+
+}
+
+void HM_MotionComponent::setTranslationvelocityZ(float translationVelocityZ)
+{
+
+	m_translationVelocity.z = translationVelocityZ;
+
+}
+
+void HM_MotionComponent::setTranslationvelocity(glm::vec3 translationVelocity)
+{
+
+	m_translationVelocity = translationVelocity;
+
+}
+
+void HM_MotionComponent::setRotationvelocity(glm::vec3 rotationVelocity)
+{
+
+	m_rotationVelocity = rotationVelocity;
+
+}
+
+void HM_MotionComponent::setScalevelocity(glm::vec3 scalingVelocity)
+{
+
+	m_scalingVelocity = scalingVelocity;
 
 }
 

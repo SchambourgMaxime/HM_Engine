@@ -15,6 +15,7 @@
 /*				  PREPROCESSOR					*/
 
 #include "HM_CameraComponent.h"
+#include "HM_TransformComponent.h"
 
 
 
@@ -122,6 +123,29 @@ void HM_CameraComponent::update()
 
 		m_camera->move(*(HM_GameMaster::instance()->getInputsManager()));
 		m_updateModelview = true;
+
+	}
+	else
+	{
+
+		HM_Component* componentTransform = m_owner->getComponent("transform");
+
+		if (componentTransform)
+		{
+
+			HM_TransformComponent* transform =
+				static_cast<HM_TransformComponent*>(componentTransform);
+
+			if (transform)
+			{
+
+				m_camera->setPosition(transform->getWorldPosition());
+				m_updateModelview = true;
+
+			}
+
+		}
+
 
 	}
 

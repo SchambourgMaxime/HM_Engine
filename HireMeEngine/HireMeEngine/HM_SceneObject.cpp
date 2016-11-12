@@ -22,6 +22,23 @@
 
 /*				 IMPLEMENTATION					*/
 
+// --- STATIC VARIABLES ---
+
+const std::vector<std::string> HM_SceneObject::updateComponentList =
+{
+
+	"joystick",
+	"character",
+	"motion",
+	"transform",
+	"boxCollider",
+	"camera",
+	"mesh",
+	"sprite",
+	"hud"
+
+};
+
 	// --- CONSTRUCTOR & DESTRUCTOR ---
 
 /*		Default constructor
@@ -29,7 +46,10 @@
 *		brief :
 *
 **/
-HM_SceneObject::HM_SceneObject()
+HM_SceneObject::HM_SceneObject() :
+	m_position(glm::vec3(0.0f, 0.0f, 0.0f)),
+	m_eulerAngles(glm::vec3(0.0f, 0.0f, 0.0f)),
+	m_scale(glm::vec3(1.0f, 1.0f, 1.0f))
 {
 }
 
@@ -43,7 +63,11 @@ HM_SceneObject::HM_SceneObject()
 *
 **/
 HM_SceneObject::HM_SceneObject(std::string name, HM_SceneObject* parent) :
-m_name(name), m_parent(parent)
+m_name(name),
+m_parent(parent),
+m_position(glm::vec3(0.0f, 0.0f, 0.0f)),
+m_eulerAngles(glm::vec3(0.0f, 0.0f, 0.0f)),
+m_scale(glm::vec3(1.0f, 1.0f, 1.0f))
 {
 }
 
@@ -208,8 +232,23 @@ bool HM_SceneObject::load()
 
 	}
 
-	// Component data liberation
+	// Start
 	std::map<std::string, HM_Component*>::const_iterator iterComp;
+	iterComp = m_componentMap.begin();
+
+	for (; iterComp != m_componentMap.end(); iterComp++)
+		if (!(*iterComp).second->onSetupStart(compDataMap))
+		{
+
+			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
+				(*iterComp).first);
+
+			isSuccesful = false;
+			break;
+
+		}
+
+	// Setup
 	iterComp = m_componentMap.begin();
 
 	for(;iterComp != m_componentMap.end(); iterComp++)
@@ -224,16 +263,11 @@ bool HM_SceneObject::load()
 
 		}
 
-	std::map<std::string, void*>::const_iterator iterData;
-	iterData = compDataMap.begin();
-
-	for (; iterData != compDataMap.end(); iterData++)
-		delete (*iterData).second;
-
+	// End
 	iterComp = m_componentMap.begin();
 
 	for (; iterComp != m_componentMap.end(); iterComp++)
-		if (!(*iterComp).second->onSetupEnd())
+		if (!(*iterComp).second->onSetupEnd(compDataMap))
 		{
 
 			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
@@ -243,6 +277,14 @@ bool HM_SceneObject::load()
 			break;
 
 		}
+
+	// Memory liberation
+	std::map<std::string, void*>::const_iterator iterData;
+	iterData = compDataMap.begin();
+
+	for (; iterData != compDataMap.end(); iterData++)
+		delete (*iterData).second;
+
 
 	// Children creation and loading
 	std::list<std::string> listStringChildren;
@@ -264,29 +306,30 @@ bool HM_SceneObject::load()
 
 }
 
-/*		display
-*
-*		brief : display all the scene objects
-*
-**/
-void HM_SceneObject::display()
+void HM_SceneObject::onUpdateStart()
 {
 
-	std::map<std::string, HM_Component*>::const_iterator iter;
-	iter = m_componentMap.begin();
+	// Start
+	for (unsigned int i = 0; i < updateComponentList.size(); i++)
+	{
 
-	for(; iter != m_componentMap.end(); iter++)
-		if((*iter).second->isActive())
-			(*iter).second->display();
+		HM_Component* currentComponent = getComponent(updateComponentList[i]);
 
+		if (currentComponent)
+			if (currentComponent->isActive())
+				currentComponent->onUpdateStart();
+
+	}
+
+	//Children
 	if (m_children.size() != 0U)
 	{
-		
+
 		std::map<std::string, HM_SceneObject*>::const_iterator iterObject;
 		iterObject = m_children.begin();
 
-		for(; iterObject != m_children.end(); iterObject++)
-			(*iterObject).second->display();
+		for (; iterObject != m_children.end(); iterObject++)
+			(*iterObject).second->onUpdateStart();
 
 	}
 
@@ -300,13 +343,19 @@ void HM_SceneObject::display()
 void HM_SceneObject::update()
 {
 
-	std::map<std::string, HM_Component*>::const_iterator iter;
-	iter = m_componentMap.begin();
+	// Update
+	for (unsigned int i = 0; i < updateComponentList.size(); i++)
+	{
 
-	for (; iter != m_componentMap.end(); iter++)
-		if ((*iter).second->isActive())
-			(*iter).second->update();
+		HM_Component* currentComponent = getComponent(updateComponentList[i]);
 
+		if (currentComponent)
+			if (currentComponent->isActive())
+				currentComponent->update();
+
+	}
+
+	//Children
 	if (m_children.size() != 0U)
 	{
 
@@ -315,6 +364,81 @@ void HM_SceneObject::update()
 
 		for (; iterObject != m_children.end(); iterObject++)
 			(*iterObject).second->update();
+
+	}
+
+}
+
+
+void HM_SceneObject::onUpdateEnd()
+{
+
+	// End
+	for (unsigned int i = 0; i < updateComponentList.size(); i++)
+	{
+
+		HM_Component* currentComponent = getComponent(updateComponentList[i]);
+
+		if (currentComponent)
+			if (currentComponent->isActive())
+				currentComponent->onUpdateEnd();
+
+	}
+
+	//Children
+	if (m_children.size() != 0U)
+	{
+
+		std::map<std::string, HM_SceneObject*>::const_iterator iterObject;
+		iterObject = m_children.begin();
+
+		for (; iterObject != m_children.end(); iterObject++)
+			(*iterObject).second->onUpdateEnd();
+
+	}
+
+}
+
+/*		display
+*
+*		brief : display all the scene objects
+*
+**/
+void HM_SceneObject::display()
+{
+
+	std::map<std::string, HM_Component*>::const_iterator iter;
+	iter = m_componentMap.begin();
+
+	// Start
+	for (; iter != m_componentMap.end(); iter++)
+		if ((*iter).second->isActive())
+			(*iter).second->onDisplayStart();
+
+	iter = m_componentMap.begin();
+
+	// Display
+	for (; iter != m_componentMap.end(); iter++)
+		if ((*iter).second->isActive())
+			(*iter).second->display();
+
+	iter = m_componentMap.begin();
+
+	// End
+	for (; iter != m_componentMap.end(); iter++)
+		if ((*iter).second->isActive())
+			(*iter).second->onDisplayEnd();
+
+
+	// Children
+	if (m_children.size() != 0U)
+	{
+
+		std::map<std::string, HM_SceneObject*>::const_iterator iterObject;
+		iterObject = m_children.begin();
+
+		for (; iterObject != m_children.end(); iterObject++)
+			(*iterObject).second->display();
 
 	}
 

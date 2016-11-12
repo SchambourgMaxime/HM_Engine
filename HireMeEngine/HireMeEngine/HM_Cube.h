@@ -36,6 +36,8 @@ public:
 	HM_Cube(float xMax, float xMin,
 			float yMax, float yMin,
 			float zMax, float zMin);
+	// Copy constructor
+	HM_Cube(HM_Cube const & other);
 	// Constructor with vectors
 	HM_Cube(glm::vec3 vecMax, glm::vec3 vecMin);
 	// Destructor
@@ -44,6 +46,13 @@ public:
 	HM_Cube& operator=(HM_Cube const & other);
 	HM_Cube operator*(float factor) const;
 	HM_Cube operator*(glm::vec3 factor) const;
+	HM_Cube operator+(float factor) const;
+	HM_Cube operator+(glm::vec3 factor) const;
+
+	HM_Cube operator*=(float factor);
+	HM_Cube operator*=(glm::vec3 factor);
+	HM_Cube operator+=(float factor);
+	HM_Cube operator+=(glm::vec3 factor);
 
 	float getXMax() const;
 	float getXMin() const;
@@ -74,10 +83,22 @@ public:
 	// Checks to see if a given HM_Cube instersects with this one
 	bool intersectsWith(HM_Cube const & other);
 
-	void draw(glm::vec3 position) const;
+	HM_Cube getRotatedCube(glm::vec3 eulerAngles) const;
+
+	void rotate(glm::vec3 eulerAngles);
+
+	void rotateOnX(float theta);
+	void rotateOnY(float theta);
+	void rotateOnZ(float theta);
+
+	void draw(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)) const;
 
 private:
 	/** Private functions **/
+
+	void copyCube(HM_Cube const & other);
 
 	// Setup for the width, height and depth
 	void setupSize(float xMax, float xMin,

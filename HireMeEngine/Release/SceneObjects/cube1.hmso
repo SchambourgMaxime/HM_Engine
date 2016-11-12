@@ -1,0 +1,15 @@
+[COMPONENTS]
+transform mesh motion boxCollider joystick
+
+[ATTRIBUTES]
+position=:vec3:(3.0,0.0,0.0)
+rotation=:vec3:(0.1,0.0,0.0)
+scale=:vec3:(1.0,1.0,1.0)
+meshFile=:str:cube3.obj
+textureFile=:str:cube3.png
+vertexShader=:str:texture.vert
+fragmentShader=:str:texture.frag
+velocity=:vec3:(0.0,0.0,0.0)
+collider=:cube:(1.0,-1.0,1.0,-1.0,1.0,-1.0)
+joyID=:int:0
+joySpeed=:float:0.1

@@ -42,10 +42,24 @@ public:
 	// Initialize the velocity of the motion component
 	bool setup(std::map<std::string, void*> descr) override;
 
+	// TODO : update position based on motion
+	virtual void onUpdateStart() override;
+	// TODO : update position based on motion
+	virtual void update() override {};
+
 	// No display for the box collider
 	virtual void display() override {};
-	// TODO : update position based on motion
-	virtual void update() override;
+
+
+	glm::vec3 getVelocity() const;
+
+	void setTranslationvelocityX(float translationVelocityX);
+	void setTranslationvelocityY(float translationVelocityY);
+	void setTranslationvelocityZ(float translationVelocityZ);
+
+	void setTranslationvelocity(glm::vec3 translationVelocity);
+	void setRotationvelocity(glm::vec3 rotationVelocity);
+	void setScalevelocity(glm::vec3 scaleVelocity);
 
 private:
 
@@ -63,6 +77,8 @@ private:
 	glm::vec3 m_scalingVelocity;
 	// Velocity of the motion when the component was setup
 	glm::vec3 m_originalScalingVelocity;
+
+	glm::vec3 m_velocity;
 
 	// Time in milliseconds of last frame
 	Uint32 m_timeLastFrame;
