@@ -92,19 +92,87 @@ size=:vec2:(21,34)
 pivot=:vec2:(0.5,0.0)
 }
 
+:sprite:jump0 {
+position=:vec2:(7.0,168.0)
+size=:vec2:(17,32)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:jump1 {
+position=:vec2:(33.0,166.0)
+size=:vec2:(20,34)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:duck0 {
+position=:vec2:(268.0,91.0)
+size=:vec2:(21,21)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:hurt0 {
+position=:vec2:(171.0,131.0)
+size=:vec2:(23,31)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death0 {
+position=:vec2:(202.0,131.0)
+size=:vec2:(23,31)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death1 {
+position=:vec2:(9.0,17.0)
+size=:vec2:(19,24)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death2 {
+position=:vec2:(31.0,17.0)
+size=:vec2:(19,24)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death3 {
+position=:vec2:(53.0,17.0)
+size=:vec2:(19,24)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death4 {
+position=:vec2:(75.0,17.0)
+size=:vec2:(19,24)
+pivot=:vec2:(0.5,0.0)
+}
+
+:sprite:death5 {
+position=:vec2:(97.0,17.0)
+size=:vec2:(19,24)
+pivot=:vec2:(0.5,0.0)
+}
+
 [TIMELINES]
 :tl:idle {
 0=idle0
-200=idle1
-400=idle2
-600=idle3
-800=idle4
+100=idle1
+200=idle2
+300=idle1
+400=idle0
+500=idle1
+600=idle2
+700=idle1
+800=idle0
+900=idle1
 1000=idle5
-1200=idle6
-1400=idle0
+1100=idle6
+1200=idle5
+1300=idle2
+1400=idle1
+1500=idle0
 }
 
-:tl:walk {
+:tl:run {
 0=walk0
 100=walk1
 200=walk2
@@ -114,4 +182,29 @@ pivot=:vec2:(0.5,0.0)
 600=walk6
 700=walk7
 800=walk0
+}
+
+:tl:jump {
+0=jump0
+}
+
+:tl:slide {
+0=duck0
+}
+
+:tl:hurt {
+0=hurt0
+}
+
+:tl:preDeath {
+0=death0
+}
+
+:tl:death {
+0=death1
+50=death2
+100=death3
+150=death4
+200=death5
+250=death1
 }

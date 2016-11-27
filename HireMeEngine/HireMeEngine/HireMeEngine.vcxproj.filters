@@ -105,6 +105,15 @@
     <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Character.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
+    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp">
+      <Filter>MSAA</Filter>
+    </ClCompile>
+    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.cpp">
+      <Filter>MSAA</Filter>
+    </ClCompile>
+    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp">
+      <Filter>MSAA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HM_GameMaster.h">
@@ -195,6 +204,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Maxime Schambourg Awesome Application\MSAA_Character.h">
+      <Filter>MSAA</Filter>
+    </ClInclude>
+    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h">
+      <Filter>MSAA</Filter>
+    </ClInclude>
+    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.h">
+      <Filter>MSAA</Filter>
+    </ClInclude>
+    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h">
       <Filter>MSAA</Filter>
     </ClInclude>
   </ItemGroup>

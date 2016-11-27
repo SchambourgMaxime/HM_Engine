@@ -14,6 +14,8 @@
 
 /*				  PREPROCESSOR					*/
 
+#pragma once
+
 #include "HM_Component.h"
 
 
@@ -70,6 +72,10 @@ public:
 	void setLocalPosition(glm::vec3 const & localPosition);
 	void setLocalRotation(glm::vec3 const & localRotation);
 	void setLocalScale(glm::vec3 const & localScale);
+
+	void setOriginalPosition(glm::vec3 const & originalPosition);
+	void setOriginalRotation(glm::vec3 const & originalRotation);
+	void setOriginalScale(glm::vec3 const & originalScale);
 
 	void setLocalPositionX(float localPositionX);
 	void setLocalPositionY(float localPositionY);

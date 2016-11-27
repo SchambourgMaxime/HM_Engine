@@ -62,6 +62,8 @@ public:
 	unsigned int getLinearCopyNumber() const;
 	glm::vec3 getLinearcopyOffest() const;
 
+	void setLinearCopyNumber(unsigned int linearCopyNumber);
+
 protected:
 	/** Private functions **/
 

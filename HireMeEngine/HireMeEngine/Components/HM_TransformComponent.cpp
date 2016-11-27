@@ -366,6 +366,27 @@ void HM_TransformComponent::setLocalScale(glm::vec3 const & localScale)
 
 }
 
+void HM_TransformComponent::setOriginalPosition(glm::vec3 const & originalPosition)
+{
+
+	m_originalPosition = originalPosition;
+
+}
+
+void HM_TransformComponent::setOriginalRotation(glm::vec3 const & originalRotation)
+{
+
+	m_originalRotation = originalRotation;
+
+}
+
+void HM_TransformComponent::setOriginalScale(glm::vec3 const & originalScale)
+{
+
+	m_originalScale = originalScale;
+
+}
+
 void HM_TransformComponent::setLocalPositionX(float localPositionX)
 {
 

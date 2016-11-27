@@ -50,7 +50,7 @@ public:
 
 	void addTimelineStep(unsigned int time, std::string frame);
 
-	void update();
+	void update(float animSpeed);
 
 	void start();
 	void stop();
@@ -98,11 +98,17 @@ public:
 
 	void updateSprite();
 
+	void crop(float percentage, Direction direction);
+
+	float getAnimSpeed();
+
+	void setAnimSpeed(float animSpeed);
+
 private:
 	/** Private functions **/
 
 	void createVertices(glm::vec2 const & size, 
-		glm::vec2 const & pivot = glm::vec2(0),
+		glm::vec2 const & pivot = glm::vec2(0.0f, 0.0f),
 		glm::vec2 const & uvMin = glm::vec2(0.0f, 0.0f),
 		glm::vec2 const & uvMax = glm::vec2(1.0f, 1.0f)
 		);
@@ -117,12 +123,27 @@ private:
 		glm::vec2 const & textureSize);
 
 	/** Private variables **/
+	
+	glm::vec2 m_size;
+	glm::vec2 m_originalSize;
+
+	glm::vec2 m_pivot;
+	glm::vec2 m_originalPivot;
+
+	glm::vec2 m_uvMin;
+	glm::vec2 m_originalUVMin;
+
+	glm::vec2 m_uvMax;
+	glm::vec2 m_originalUVMax;
 
 	std::map<std::string, HM_SpriteFrame> m_frames;
 	std::map<std::string, HM_SpriteTimeline> m_timelines;
 
 	HM_SpriteTimeline m_currentTimeline;
+	std::string m_currentTimelineName;
 	HM_SpriteFrame m_currentFrame;
 	std::string m_currentFrameName;
+
+	float m_animSpeed;
 
 };

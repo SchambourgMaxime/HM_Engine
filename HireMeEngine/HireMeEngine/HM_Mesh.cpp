@@ -336,7 +336,7 @@ int HM_Mesh::getVertexIndex(HM_Vertex const & vertex) const
 GLfloat* HM_Mesh::putMeshCoords(GLfloat* pointerToFill)
 {
 
-	pointerToFill = new GLfloat[m_nbCoords];
+	//pointerToFill = new GLfloat[m_nbCoords];
 	GLfloat* temp_coords = pointerToFill;
 
 	for (unsigned int i = 0; i < m_vertices.size(); i++)
@@ -357,7 +357,7 @@ void HM_Mesh::putMeshCoords(std::vector<GLfloat>* vectorToFill)
 GLfloat* HM_Mesh::putMeshTexCoords(GLfloat* pointerToFill)
 {
 
-	pointerToFill = new GLfloat[m_nbTexCoords];
+	//pointerToFill = new GLfloat[m_nbTexCoords];
 	GLfloat* temp_texCoords = pointerToFill;
 
 	for (unsigned int i = 0; i < m_vertices.size(); i++)

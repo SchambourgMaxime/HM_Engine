@@ -1,0 +1,15 @@
+[COMPONENTS]
+transform motion sprite
+
+[ATTRIBUTES]
+position=:vec3:(-10.0,-0.35,-100.0)
+rotation=:vec3:(90.0,0.0,0.0)
+scale=:vec3:(100.0,100.0,10.0)
+spriteName=:str:ground
+spritePivot=:vec3:(0.5,0.0,0.0)
+spriteUVMax=:vec3:(8.0,8.0,0.0)
+spriteTextureFile=:str:grassTile4.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag
+linearCopyNumber=:int:100
+linearCopyAxis=:vec3:(1.0,0.0,0.0)

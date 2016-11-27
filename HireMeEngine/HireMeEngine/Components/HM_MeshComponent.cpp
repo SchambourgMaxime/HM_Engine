@@ -148,6 +148,7 @@ bool HM_MeshComponent::onSetupEnd(std::map<std::string, void*> descr)
 	return true;
 
 	}
+
 }
 
 /*		display
@@ -252,6 +253,13 @@ glm::vec3 HM_MeshComponent::getLinearcopyOffest() const
 {
 
 	return m_linearCopyOffset;
+
+}
+
+void HM_MeshComponent::setLinearCopyNumber(unsigned int linearCopyNumber)
+{
+
+	m_linearCopyNumber = linearCopyNumber;
 
 }
 

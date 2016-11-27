@@ -50,14 +50,21 @@ public:
 	// No display for the box collider
 	virtual void display() override {};
 
+	virtual void onActivation() override;
 
-	glm::vec3 getVelocity() const;
+	void reset();
 
-	void setTranslationvelocityX(float translationVelocityX);
-	void setTranslationvelocityY(float translationVelocityY);
-	void setTranslationvelocityZ(float translationVelocityZ);
+	void resetTranslationVelocity();
+	void resetRotationVelocity();
+	void resetScalingVelocity();
 
-	void setTranslationvelocity(glm::vec3 translationVelocity);
+	glm::vec3 getTranslationVelocity() const;
+
+	void setTranslationVelocityX(float translationVelocityX);
+	void setTranslationVelocityY(float translationVelocityY);
+	void setTranslationVelocityZ(float translationVelocityZ);
+
+	void setTranslationVelocity(glm::vec3 translationVelocity);
 	void setRotationvelocity(glm::vec3 rotationVelocity);
 	void setScalevelocity(glm::vec3 scaleVelocity);
 

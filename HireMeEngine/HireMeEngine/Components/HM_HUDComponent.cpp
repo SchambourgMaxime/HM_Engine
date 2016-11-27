@@ -132,7 +132,7 @@ bool HM_HUDComponent::setup(std::map<std::string, void*> descr)
 			m_pivot = glm::vec2(0.0f, 0.0f);
 
 		m_pMesh = m_pGraphicsManager->loadSprite(m_name, m_size, m_pivot,
-			HM_VBO_STATIC);
+			glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), HM_VBO_STATIC);
 
 		m_isAnimated = false;
 
@@ -181,7 +181,8 @@ void HM_HUDComponent::display()
 	for (unsigned int i = 0; i < m_linearCopyNumber; i++)
 	{
 
-		m_pGraphicsManager->drawHUD(sprite, m_pTexture, position + (glm::vec2(m_linearCopyOffset) * (float)i));
+		m_pGraphicsManager->drawHUD(sprite, m_pTexture,
+			position + (glm::vec2(m_linearCopyOffset) * (float)i));
 
 	}
 

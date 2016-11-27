@@ -53,10 +53,12 @@ HM_GameMaster::HM_GameMaster()
 **/
 HM_GameMaster::~HM_GameMaster()
 {
+
 	m_pGameLog->flush();
 
 	delete m_pGameLog;
 	delete m_pGraphicsManager;
+
 }
 
 

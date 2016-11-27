@@ -69,6 +69,12 @@ public :
 	// Set the position, target point and vertical axis of the camera
 	void lookAt(glm::mat4 &modelview);
 
+	//
+	void lerpTo(glm::vec3 target, float speed = 0.5f);
+
+	// Update
+	void update();
+
 
 private :
 	/** Private Variables **/
@@ -88,6 +94,14 @@ private :
 	glm::vec3 m_position;
 	// Point looked at by the camera
 	glm::vec3 m_targetPoint;
+
+	// is the camera lerping
+	bool m_isLerping;
+	// Position of the camera to lerp to
+	glm::vec3 m_lerpPosition;
+	// Speed of lerp
+	float m_lerpSpeed;
+
 
 	// Speed at which the camera rotates
 	float m_sensibility;

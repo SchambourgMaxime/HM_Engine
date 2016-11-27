@@ -26,6 +26,9 @@
 #include "HM_HUDComponent.h"
 
 #include "../MaximeSchambourgAwesomeApplication/MSAA_Character.h"
+#include "../MaximeSchambourgAwesomeApplication/MSAA_DamageDealer.h"
+#include "../MaximeSchambourgAwesomeApplication/MSAA_Checkpoint.h"
+#include "../MaximeSchambourgAwesomeApplication/MSAA_Activator.h"
 
 
 /*				 IMPLEMENTATION					*/
@@ -61,10 +64,36 @@ bool HM_Component::isValid() const
 
 }
 
-bool HM_Component::isActive() const
+bool HM_Component::isUpdatable() const
 {
 
-	return active;
+	return m_isUpdatable;
+
+}
+
+bool HM_Component::isDisplayable() const
+{
+
+	return m_isDisplayable;
+
+}
+
+void HM_Component::setIsUpdatable(bool active)
+{
+
+	if (!m_isUpdatable && active)
+		onActivation();
+	else if (m_isUpdatable && !active)
+		onDeactivation();
+
+	m_isUpdatable = active;
+
+}
+
+void HM_Component::setIsDisplayable(bool active)
+{
+
+	m_isDisplayable = active;
 
 }
 
@@ -95,6 +124,7 @@ HM_SceneObject* owner) const
 
 }
 
+
 /*		Constructor
 *
 *		brief : fills the map of pointer to the available component classes
@@ -114,5 +144,7 @@ HM_ComponentFactory::HM_ComponentFactory()
 	m_mapToFactoryObjects["hud"] = new HM_HUDComponent(NULL);
 
 	m_mapToFactoryObjects["character"] = new MSAA_Character(NULL);
-
+	m_mapToFactoryObjects["damageDealer"] = new MSAA_DamageDealer(NULL);
+	m_mapToFactoryObjects["checkpoint"] = new MSAA_Checkpoint(NULL);
+	m_mapToFactoryObjects["activator"] = new MSAA_Activator(NULL);
 }

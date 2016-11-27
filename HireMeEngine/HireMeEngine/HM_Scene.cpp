@@ -116,7 +116,7 @@ bool HM_Scene::load()
 			HM_SceneObject* newSceneObject;
 			newSceneObject = new HM_SceneObject(currentObjectString, NULL);
 
-			if (!newSceneObject->load())
+			if (!newSceneObject->onSetupStart())
 			{
 
 				GAME_LOG->_ADDLINETOLOG("Error : can't load scene object \'" +
@@ -127,6 +127,46 @@ bool HM_Scene::load()
 			}
 
 			m_sceneObjectsList.push_back(newSceneObject);
+
+		}
+
+	}
+
+	std::list<HM_SceneObject*>::const_iterator sceneObjectIter;
+	sceneObjectIter = m_sceneObjectsList.begin();
+
+	for (; sceneObjectIter != m_sceneObjectsList.end(); sceneObjectIter++)
+	{
+
+		HM_SceneObject* currentObject = (*sceneObjectIter);
+
+		if (!currentObject->setup())
+		{
+
+			GAME_LOG->_ADDLINETOLOG("Error : can't load scene object \'" +
+				currentObject->getName() + "\'");
+
+			return false;
+
+		}
+
+	}
+
+	sceneObjectIter = m_sceneObjectsList.begin();
+
+	for (; sceneObjectIter != m_sceneObjectsList.end(); sceneObjectIter++)
+	{
+
+		HM_SceneObject* currentObject = (*sceneObjectIter);
+
+		if (!currentObject->onSetupEnd())
+		{
+
+			GAME_LOG->_ADDLINETOLOG("Error : can't load scene object \'" +
+				currentObject->getName() + "\'");
+
+			return false;
+
 		}
 
 	}
@@ -156,17 +196,20 @@ void HM_Scene::update()
 	iter = m_sceneObjectsList.begin();
 
 	for (; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->onUpdateStart();
+		if((*iter)->isUpdatable())
+			(*iter)->onUpdateStart();
 
 	iter = m_sceneObjectsList.begin();
 
 	for (; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->update();
+		if ((*iter)->isUpdatable())
+			(*iter)->update();
 
 	iter = m_sceneObjectsList.begin();
 
 	for (; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->onUpdateEnd();
+		if ((*iter)->isUpdatable())
+			(*iter)->onUpdateEnd();
 
 }
 
@@ -182,6 +225,7 @@ void HM_Scene::display()
 	iter = m_sceneObjectsList.begin();
 
 	for (; iter != m_sceneObjectsList.end(); iter++)
-		(*iter)->display();
+		if ((*iter)->isDisplayable())
+			(*iter)->display();
 
 }

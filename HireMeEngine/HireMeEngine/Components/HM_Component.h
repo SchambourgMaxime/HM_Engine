@@ -86,15 +86,24 @@ public:
 	// Object overloaded function : checks validity of object (is it usable?)
 	virtual bool isValid() const override;
 
-	bool isActive() const;
+	bool isUpdatable() const;
+	bool isDisplayable() const;
+
+	void setIsUpdatable(bool active);
+	void setIsDisplayable(bool active);
 
 protected:
+
 	/** Protected variables **/
 	
 	// Pointer to the scene object possessing the component
 	HM_SceneObject* m_owner;
 
-	bool active = true;
+	virtual void onActivation() {};
+	virtual void onDeactivation() {};
+
+	bool m_isUpdatable = true;
+	bool m_isDisplayable = true;
 
 };
 

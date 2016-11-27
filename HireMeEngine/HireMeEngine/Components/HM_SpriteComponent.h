@@ -35,7 +35,9 @@ public:
 
 	// Constructor
 	HM_SpriteComponent(HM_SceneObject* owner) : HM_MeshComponent(owner),
-		m_size(glm::vec2(0.0f)){};
+		m_name("default"), m_isAnimated(false),
+		m_size(glm::vec2(1.0f, 1.0f)), m_pivot(glm::vec2(0.0f, 0.0f)),
+		m_uvMin(glm::vec2(0.0f, 0.0f)), m_uvMax(glm::vec2(1.0f, 1.0f)){};
 
 	// Create an instance of the mesh component for the factory
 	HM_SpriteComponent* create(HM_SceneObject* owner) const override;
@@ -50,6 +52,8 @@ protected:
 	bool setupSprite(std::string Attribute1Name,
 		std::string Attribute2Name,
 		std::string Attribute3Name,
+		std::string Attribute4Name,
+		std::string Attribute5Name,
 		std::map<std::string, void*> descr);
 
 	/** Private variables **/
@@ -60,5 +64,7 @@ protected:
 	
 	glm::vec2 m_size;
 	glm::vec2 m_pivot;
+	glm::vec2 m_uvMin;
+	glm::vec2 m_uvMax;
 
 };

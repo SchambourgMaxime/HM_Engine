@@ -1,0 +1,14 @@
+[COMPONENTS]
+transform mesh boxCollider
+
+[ATTRIBUTES]
+position=:vec3:(40.0,3.0,0.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(2.0,2.0,2.0)
+meshFile=:str:sidewalk.obj
+textureFile=:str:Sidewalk.png
+vertexShader=:str:texture.vert
+fragmentShader=:str:texture.frag
+linearCopyNumber=:int:10
+linearCopyAxis=:vec3:(1.5,1.0,0.0)
+collider=:cube:(4.3,-2.3,-0.33,-0.33,1.8,0.2)

@@ -17,16 +17,23 @@
 #include "HM_Sprite.h"
 
 
+
 /*				 IMPLEMENTATION					*/
 
 HM_Sprite::HM_Sprite(std::string const & spriteFile,
-					 glm::vec2 const & size)
+					 glm::vec2 const & size) :
+	m_animSpeed(1.0f)
 {
 
 	if(spriteFile == "")
 	{
 
 		createVertices(size);
+
+		m_originalSize = m_size;
+		m_originalPivot = m_pivot;
+		m_originalUVMin = m_uvMin;
+		m_originalUVMax = m_uvMax;
 
 	}
 	else
@@ -54,10 +61,20 @@ HM_Sprite::HM_Sprite(std::string const & spriteFile,
 }
 
 HM_Sprite::HM_Sprite(glm::vec2 const & size, glm::vec2 const & pivot,
-					 glm::vec2 const & uvMin, glm::vec2 const & uvMax)
+					 glm::vec2 const & uvMin, glm::vec2 const & uvMax) :
+	m_size(size), m_originalSize(size),
+	m_pivot(pivot), m_originalPivot(pivot),
+	m_uvMin(uvMin), m_originalUVMin(uvMin),
+	m_uvMax(uvMin), m_originalUVMax(uvMin),
+	m_animSpeed(1.0f)
 {
 
 	createVertices(size, pivot, uvMin, uvMax);
+
+	m_originalSize = m_size;
+	m_originalPivot = m_pivot;
+	m_originalUVMin = m_uvMin;
+	m_originalUVMax = m_uvMax;
 
 	m_triangles.push_back(new HM_Triangle(m_vertices[0], m_vertices[1],
 		m_vertices[2]));
@@ -84,7 +101,7 @@ HM_Sprite::~HM_Sprite()
 void HM_Sprite::setSize(glm::vec2 const & size)
 {
 
-
+	createVertices(size);
 
 }
 
@@ -115,8 +132,12 @@ void HM_Sprite::createVertices(glm::vec2 const & size, glm::vec2 const & pivot,
 		glm::vec3(max.x, min.y, 0),
 		glm::vec2(uvMax.x, uvMin.y)));
 
-
 	m_boundingBox = HM_Cube(glm::vec3(max, 0.0f), glm::vec3(min, 0.0f));
+
+	m_size = size;
+	m_pivot = pivot;
+	m_uvMin = uvMin;
+	m_uvMax = uvMax;
 
 }
 
@@ -154,14 +175,20 @@ void HM_Sprite::loadAnimSprite(std::string const & spriteFile)
 void HM_Sprite::playAnim(std::string animName)
 {
 
-	std::map<std::string, HM_SpriteTimeline>::const_iterator iter;
-	iter = m_timelines.find(animName);
-
-	if(iter != m_timelines.end())
+	if(animName != m_currentTimelineName)
 	{
 
-		m_currentTimeline.stop();
-		m_currentTimeline = (*iter).second;
+		std::map<std::string, HM_SpriteTimeline>::const_iterator iter;
+		iter = m_timelines.find(animName);
+
+		if (iter != m_timelines.end())
+		{
+
+			m_currentTimeline.stop();
+			m_currentTimelineName = (*iter).first;
+			m_currentTimeline = (*iter).second;
+
+		}
 
 	}
 
@@ -173,7 +200,7 @@ void HM_Sprite::updateSprite()
 	if(m_timelines.size() != 0)
 	{
 	
-		m_currentTimeline.update();
+		m_currentTimeline.update(m_animSpeed);
 	
 		if (m_currentFrameName != m_currentTimeline.getCurrentFrame())
 		{
@@ -332,13 +359,7 @@ void HM_Sprite::addFrameToMesh(HM_SpriteFrame const & frame,
 							   glm::vec2 const & textureSize)
 {
 
-	//float xMax, xMin, yMax, yMin;
 	glm::vec2 uvMax, uvMin;
-
-	//xMax = (frame.m_size.x * (1.0f - frame.m_pivot.x)) / textureSize.x;
-	//xMin = (-frame.m_size.x * frame.m_pivot.x) / textureSize.x;
-	//yMax = (frame.m_size.y * (1.0f - frame.m_pivot.y)) / textureSize.x;
-	//yMin = (-frame.m_size.y * frame.m_pivot.y) / textureSize.x;
 
 	uvMax.x = (frame.m_position.x + frame.m_size.x) / textureSize.x;
 	uvMax.y = (frame.m_position.y + frame.m_size.y) / textureSize.y;
@@ -347,28 +368,30 @@ void HM_Sprite::addFrameToMesh(HM_SpriteFrame const & frame,
 
 	createVertices(frame.m_size, frame.m_pivot, uvMin, uvMax);
 
-	//// down left
-	//m_vertices.push_back(new HM_Vertex(0,
-	//								   glm::vec3(xMin, yMin, 0),
-	//								   glm::vec2(uMin, vMin)));
-
-	//// up left
-	//m_vertices.push_back(new HM_Vertex(1,
-	//								   glm::vec3(xMin, yMax, 0),
-	//								   glm::vec2(uMin, vMax)));
-
-	//// up right
-	//m_vertices.push_back(new HM_Vertex(2,
-	//								   glm::vec3(xMax, yMax, 0),
-	//								   glm::vec2(uMax, vMax)));
-
-	//// down right
-	//m_vertices.push_back(new HM_Vertex(3,
-	//								   glm::vec3(xMax, yMin, 0),
-	//								   glm::vec2(uMax, vMin)));
-
 }
 
+
+void HM_Sprite::crop(float percentage, Direction direction)
+{
+
+	m_vertices.clear();
+
+	if(direction == RIGHT)
+		createVertices(glm::vec2(m_originalSize.x * percentage, m_size.y),
+		m_originalPivot,
+		glm::vec2(m_originalUVMin.x * percentage, m_uvMin.y),
+		glm::vec2(m_originalUVMax.x * percentage, m_uvMax.y));
+	else if(direction == LEFT)
+		createVertices(glm::vec2(m_originalSize.x * percentage, m_size.y),
+		m_originalPivot,
+		glm::vec2(m_originalUVMin.x * percentage, m_uvMin.y),
+		glm::vec2(m_originalUVMax.x * percentage, m_uvMax.y));
+
+
+		HM_GameMaster::instance()->getGraphicsManager()->refreshVBOData(this,
+			HM_VBO_STATIC, HM_VBO_STATIC);
+
+}
 
 HM_SpriteTimeline::HM_SpriteTimeline() :
 	m_currentStep(0), m_currentFrame(""), m_startTime(-1), isPlaying(false)
@@ -396,25 +419,30 @@ void HM_SpriteTimeline::addTimelineStep(unsigned int time, std::string frame)
 
 }
 
-void HM_SpriteTimeline::update()
+void HM_SpriteTimeline::update(float animSpeed)
 {
 
 	if(!isPlaying)
 		start();
 
-	unsigned int timeFromStart = SDL_GetTicks() - m_startTime;
-
-	
-	if (timeFromStart > m_timelineSteps[m_currentStep + 1].first)
+	if (m_timelineSteps.size() > 1u)
 	{
 
-		m_currentStep++;
-		m_currentFrame = m_timelineSteps[m_currentStep].second;
+		unsigned int timeFromStart = SDL_GetTicks() - m_startTime;
+
+
+		if (timeFromStart > m_timelineSteps[m_currentStep + 1].first * animSpeed)
+		{
+
+			m_currentStep++;
+			m_currentFrame = m_timelineSteps[m_currentStep].second;
+
+		}
+
+		if (m_currentStep == m_timelineSteps.size() - 1)
+			start();
 
 	}
-
-	if (m_currentStep == m_timelineSteps.size() - 1)
-		start();
 
 }
 
@@ -435,5 +463,19 @@ void HM_SpriteTimeline::stop()
 
 	m_startTime = -1;
 	isPlaying = false;
+
+}
+
+float HM_Sprite::getAnimSpeed()
+{
+
+	return m_animSpeed;
+
+}
+
+void HM_Sprite::setAnimSpeed(float animSpeed)
+{
+
+	m_animSpeed = animSpeed;
 
 }

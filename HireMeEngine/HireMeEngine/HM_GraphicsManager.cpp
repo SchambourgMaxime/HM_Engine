@@ -369,18 +369,18 @@ void HM_GraphicsManager::allocVBOData_Dynamic()
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBOID_Dynamic);
 
-		glBufferData(GL_ARRAY_BUFFER,
+			glBufferData(GL_ARRAY_BUFFER,
 					 m_bytesSizeCoords_Dynamic + m_bytesSizeTexCoords_Dynamic,
 					 0, GL_DYNAMIC_DRAW);
 
-		if(m_nbCoords_Dynamic > 0)
-		glBufferSubData(GL_ARRAY_BUFFER, 0,
-						m_bytesSizeCoords_Dynamic,
-						&m_coordsArray_Dynamic[0]);
-		if(m_nbTexCoords_Dynamic > 0)
-		glBufferSubData(GL_ARRAY_BUFFER, m_bytesSizeCoords_Dynamic,
-						m_bytesSizeTexCoords_Dynamic,
-						&m_texCoordsArray_Dynamic[0]);
+				if(m_nbCoords_Dynamic > 0)
+				glBufferSubData(GL_ARRAY_BUFFER, 0,
+								m_bytesSizeCoords_Dynamic,
+								&m_coordsArray_Dynamic[0]);
+				if(m_nbTexCoords_Dynamic > 0)
+				glBufferSubData(GL_ARRAY_BUFFER, m_bytesSizeCoords_Dynamic,
+								m_bytesSizeTexCoords_Dynamic,
+								&m_texCoordsArray_Dynamic[0]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -407,13 +407,13 @@ void HM_GraphicsManager::allocVBOData_Indices()
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBOID_Indices);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-					 m_bytesSizeIndices,
-					 0, GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+						 m_bytesSizeIndices,
+						 0, GL_STATIC_DRAW);
 
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0,
-						m_bytesSizeIndices,
-						&m_indicesArray[0]);
+				glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0,
+								m_bytesSizeIndices,
+								&m_indicesArray[0]);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -549,6 +549,8 @@ HM_Sprite* HM_GraphicsManager::loadSprite(std::string name,
 HM_Sprite* HM_GraphicsManager::loadSprite(std::string name, 
 										  glm::vec2 size,
 										  glm::vec2 pivot,
+										  glm::vec2 uvMin,
+										  glm::vec2 uvMax,
 										  unsigned char changeFrequencyCoords)
 {
 
@@ -560,7 +562,7 @@ HM_Sprite* HM_GraphicsManager::loadSprite(std::string name,
 	if (iter == m_mapOfLoadedSprites.end())
 	{
 
-		spriteToReturn = new HM_Sprite(size, pivot);
+		spriteToReturn = new HM_Sprite(size, pivot, uvMin, uvMax);
 
 		if (spriteToReturn)
 		{
@@ -654,6 +656,79 @@ void HM_GraphicsManager::addMeshtoVBOData(HM_Mesh* meshToAdd,
 	m_nbIndices += meshToAdd->getNumberIndices();
 	m_bytesSizeIndices += meshToAdd->getByteSizeIndices();
 	meshToAdd->putMeshIndices(&m_indicesArray);
+
+}
+
+void HM_GraphicsManager::refreshVBOData(HM_Mesh* mesh,
+										unsigned char changeFrequencyCoords,
+										unsigned char changeFrequencyTexCoords)
+{
+
+	if (changeFrequencyCoords == HM_VBO_STATIC)
+	{
+
+		mesh->putMeshCoords(
+			&m_coordsArray_Static[mesh->getVBOBytesOffsetCoords()
+			/ sizeof(float)]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBOID_Static);
+
+			glBufferSubData(GL_ARRAY_BUFFER, mesh->getVBOBytesOffsetCoords(),
+				mesh->getByteSizeCoords(),
+				&m_coordsArray_Static[mesh->getVBOBytesOffsetCoords()
+					/ sizeof(float)]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	}
+
+
+	else if (changeFrequencyCoords == HM_VBO_DYNAMIC)
+	{
+
+		mesh->putMeshCoords(
+			&m_coordsArray_Dynamic[mesh->getVBOBytesOffsetCoords()
+				/ sizeof(float)]);
+
+// 		glBindBuffer(GL_ARRAY_BUFFER, m_VBOID_Dynamic);
+// 
+// 			glBufferSubData(GL_ARRAY_BUFFER, mesh->getVBOBytesOffsetCoords(),
+// 				mesh->getVBOBytesOffsetCoords() + mesh->getByteSizeCoords(),
+// 				&m_coordsArray_Dynamic[mesh->getVBOBytesOffsetCoords()
+// 					/ sizeof(float)]);
+// 
+// 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	}
+
+	// Check change frequency texture coordinates
+	if (changeFrequencyTexCoords == HM_VBO_STATIC)
+	{
+
+		mesh->putMeshTexCoords(
+			&m_texCoordsArray_Static[mesh->getVBOBytesOffsetTexCoords()
+				/ sizeof(float)]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBOID_Static);
+
+			glBufferSubData(GL_ARRAY_BUFFER,
+				m_bytesSizeCoords_Static + mesh->getVBOBytesOffsetTexCoords(),
+				mesh->getByteSizeTexCoords(),
+				&m_texCoordsArray_Static[mesh->getVBOBytesOffsetTexCoords()
+					/ sizeof(float)]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	}
+
+	else if (changeFrequencyTexCoords == HM_VBO_DYNAMIC)
+		mesh->putMeshTexCoords(
+			&m_texCoordsArray_Dynamic[mesh->getVBOBytesOffsetTexCoords()
+				/ sizeof(float)]);
+
+
+	mesh->putMeshIndices(&m_indicesArray[mesh->getVBOBytesOffsetIndices()
+		/ sizeof(float)]);
 
 }
 
@@ -950,7 +1025,8 @@ void HM_GraphicsManager::drawMesh(HM_Mesh* const mesh,
 			else if(mesh->getChangeFrequencyCoords() == HM_VBO_DYNAMIC)
 				glBindBuffer(GL_ARRAY_BUFFER, m_VBOID_Dynamic);
 
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(mesh->getVBOBytesOffsetCoords()));
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 
+					BUFFER_OFFSET(mesh->getVBOBytesOffsetCoords()));
 				glEnableVertexAttribArray(0);
 
 				if (texture)

@@ -4,9 +4,9 @@ transform character motion sprite boxCollider
 [ATTRIBUTES]
 position=:vec3:(-2.0,3.0,1.0)
 rotation=:vec3:(0.0,0.0,0.0)
-scale=:vec3:(0.1,0.1,0.1)
-jumpStrength=:float:20.0f;
-maxJumpStrength=:float:30.0f
+scale=:vec3:(0.07,0.07,1.0)
+jumpStrength=:float:15.0f
+maxJumpStrength=:float:20.0f
 speed=:float:10.0f;
 spriteName=:str:player
 spriteFile=:str:character.hmsprite

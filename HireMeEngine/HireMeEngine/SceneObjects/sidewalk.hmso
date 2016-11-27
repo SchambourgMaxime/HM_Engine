@@ -2,12 +2,13 @@
 transform mesh boxCollider
 
 [ATTRIBUTES]
-position=:vec3:(0.0,0.0,0.0)
-rotation=:vec3:(0.0,-90.0,0.0)
-scale=:vec3:(3.0,3.0,2.4)
-linearCopyNumber=:int:100
-linearCopyAxis=:vec3:(0.0,0.0,1.0)
+position=:vec3:(0.0,0.0,-2.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(1.3,1.0,1.9)
+linearCopyNumber=:int:1000
+linearCopyAxis=:vec3:(1.0,0.0,0.0)
 meshFile=:str:sidewalk.obj
 textureFile=:str:Sidewalk.png
 vertexShader=:str:texture.vert
 fragmentShader=:str:texture.frag
+collider=:cube:(4.3,-2.3,-0.33,-10.0,1.8,0.2)

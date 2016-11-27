@@ -1,0 +1,13 @@
+[COMPONENTS]
+transform hud
+
+[ATTRIBUTES]
+position=:vec3:(0.668,-1.0,0.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(1.0,1.0,1.0)
+HUDName=:str:speedBar
+HUDPivot=:vec2:(0.0,0.0)
+HUDImage=:str:speedBar.png
+
+[CHILDREN]
+HUDspeedBarLayout

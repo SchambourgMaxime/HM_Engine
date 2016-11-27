@@ -1,0 +1,11 @@
+[COMPONENTS]
+transform sprite
+
+[ATTRIBUTES]
+position=:vec3:(2.0,4.0,1.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(10.0,10.0,1.0)
+spriteName=:str:resume
+spriteTextureFile=:str:resume.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag

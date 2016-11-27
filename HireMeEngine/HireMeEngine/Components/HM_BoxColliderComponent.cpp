@@ -117,28 +117,7 @@ bool HM_BoxColliderComponent::onSetupEnd(std::map<std::string, void*> descr)
 
 	}
 
-	m_transformedBox = m_originalBox;
-
-	HM_Component* component = m_owner->getComponent("transform");
-
-	if (component)
-	{
-
-		HM_TransformComponent* transformComponent =
-			static_cast<HM_TransformComponent*>(component);
-
-		if (transformComponent)
-		{
-			
-			m_transformedBox = m_originalBox * transformComponent->getWorldScale();
-			m_transformedBox += transformComponent->getWorldPosition();
-			m_transformedBox.rotate(transformComponent->getWorldRotation());
-
-		}
-
-	}
-
-	m_previousTransformedBox = m_transformedBox;
+	//recalculateTransformedBox();
 
 	colliders.push_back(this);
 
@@ -148,10 +127,17 @@ bool HM_BoxColliderComponent::onSetupEnd(std::map<std::string, void*> descr)
 
 void HM_BoxColliderComponent::onUpdateStart()
 {
+
+	m_previousTransformedBox = m_transformedBox;
+
+	recalculateTransformedBox();
+
 }
 
 void HM_BoxColliderComponent::update()
 {
+
+	recalculateTransformedBox();
 
 	unsigned int linearCopyNumber = 1;
 	glm::vec3 linearCopyOffset;
@@ -177,20 +163,25 @@ void HM_BoxColliderComponent::update()
 	HM_Cube originalTransformBox = m_transformedBox;
 
 	for (unsigned int i = 0; i < colliders.size(); i++)
-		if(colliders[i] != this)
+	{
+		if(colliders[i] != this && colliders[i]->isUpdatable())
 		{
 
-			for(unsigned int j = 0; j < linearCopyNumber; j++)
+			for (unsigned int j = 0; j < linearCopyNumber; j++)
 			{
-				
-				m_transformedBox = originalTransformBox + (linearCopyOffset * (float)j);
 
-				if (m_transformedBox.intersectsWith(colliders[i]->m_transformedBox))
+				m_transformedBox =
+					originalTransformBox + (linearCopyOffset * (float)j);
+
+				if (m_transformedBox.intersectsWith(
+					colliders[i]->m_transformedBox))
 					onCollision(*colliders[i]);
 
 			}
 
 		}
+
+	}
 
 	m_transformedBox = originalTransformBox;
 
@@ -198,9 +189,6 @@ void HM_BoxColliderComponent::update()
 
 void HM_BoxColliderComponent::onUpdateEnd()
 {
-
-	recalculateTransformedBox();
-
 }
 
 void HM_BoxColliderComponent::display()
@@ -237,6 +225,27 @@ void HM_BoxColliderComponent::display()
 
 }
 
+HM_Cube HM_BoxColliderComponent::getOriginalBox() const
+{
+
+	return m_originalBox;
+
+}
+
+bool HM_BoxColliderComponent::isTrigger() const
+{
+
+	return m_isTrigger;
+
+}
+
+void HM_BoxColliderComponent::setOriginalBox(HM_Cube const & box)
+{
+
+	m_originalBox = box;
+
+}
+
 // --- PUBLIC FUNCTIONS ---
 
 /*		onCollision
@@ -251,6 +260,9 @@ void HM_BoxColliderComponent::display()
 void HM_BoxColliderComponent::onCollision(HM_BoxColliderComponent& other)
 {
 
+	Direction direction = collisionDirection(
+		other.m_previousTransformedBox, other.m_transformedBox);
+
 	if (!m_isTrigger && !other.m_isTrigger)
 	{
 
@@ -259,45 +271,44 @@ void HM_BoxColliderComponent::onCollision(HM_BoxColliderComponent& other)
 		if (componentTransform)
 		{
 
-			HM_Component* componentMotion = other.m_owner->getComponent("motion");
+			HM_TransformComponent* transformComponent =
+				static_cast<HM_TransformComponent*>(componentTransform);
 
+			// collided with the top
+			if (direction == UP)
+				transformComponent->translate(
+					glm::vec3(0.0f, m_transformedBox.getYMax() -
+						other.m_transformedBox.getYMin(), 0.0f));
+			// collided with the bottom
+			else if (direction == DOWN)
+				transformComponent->translate(
+					glm::vec3(0.0f, -(other.m_transformedBox.getYMax() -
+					m_transformedBox.getYMin()), 0.0f));
 
-			if (componentMotion)
-			{
-				
-				HM_MotionComponent* motionComponent = 
-					static_cast<HM_MotionComponent*>(componentMotion);
+			other.recalculateTransformedBox();
 
-				HM_TransformComponent* transformComponent =
-					static_cast<HM_TransformComponent*>(componentTransform);
-
-				// collided with the top
-				if (other.m_previousTransformedBox.getYMin() >= m_transformedBox.getYMax() &&
-					other.m_transformedBox.getYMin() <= m_transformedBox.getYMax())
-				{
-
-					transformComponent->translate(
-						glm::vec3(0.0f, m_transformedBox.getYMax() -
-							other.m_transformedBox.getYMin(), 0.0f));
-
-					other.m_owner->getComponent("character")->onCollision(other.m_owner, UP);
-
-				}
-				// collided with the bottom
-				else if (other.m_previousTransformedBox.getYMax() <= m_transformedBox.getYMin() &&
-					other.m_transformedBox.getYMax() >= m_transformedBox.getYMin())
-					transformComponent->setLocalPositionY(
-					(transformComponent->getLocalPosition().y -
-						(glm::abs(other.m_transformedBox.getYMax() -
-								  m_transformedBox.getYMin()))));
-
-				other.recalculateTransformedBox();
-
-			}
-			
 		}
 
 	}
+
+	other.m_owner->onCollision(m_owner, direction);
+	m_owner->onCollision(other.m_owner, direction);
+
+}
+
+Direction HM_BoxColliderComponent::collisionDirection(
+	HM_Cube const & previousOther, HM_Cube const & other)
+{
+
+	if (previousOther.getYMin() >= m_transformedBox.getYMax() &&
+		other.getYMin() <= m_transformedBox.getYMax())
+		return UP;
+
+	else if (previousOther.getYMax() <= m_transformedBox.getYMin() &&
+			 other.getYMax() >= m_transformedBox.getYMin())
+		return DOWN;
+
+	return UNDEFINED;
 
 }
 

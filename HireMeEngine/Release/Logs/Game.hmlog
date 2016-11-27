@@ -4,5 +4,5 @@ LOG ENTRY
 Game.hmlog
 
 entry ID	Time			File			LineNumber	Message						
-0		[Oct 28 2016 02:06:54]	HM_Scene.cpp		92		HM_Scene::load() : Error : Couldn't find file for scene 'Scenes/scene2.hm'
-1		[Oct 28 2016 02:06:54]	HM_GameMaster.cpp	178		HM_GameMaster::launchGame() : Error : Can't load scene 'scene2'
+0		[Nov 12 2016 12:37:29]	HM_Scene.cpp		92		HM_Scene::load() : Error : Couldn't find file for scene 'Scenes/scene2.hm'
+1		[Nov 12 2016 12:37:29]	HM_GameMaster.cpp	178		HM_GameMaster::launchGame() : Error : Can't load scene 'scene2'

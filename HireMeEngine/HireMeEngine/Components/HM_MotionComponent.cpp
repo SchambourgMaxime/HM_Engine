@@ -98,6 +98,7 @@ void HM_MotionComponent::onUpdateStart()
 		if (deltaTime > 0)
 		{
 
+			// TODO clean that
 			HM_TransformComponent* transform =
 				static_cast<HM_TransformComponent*>(
 					m_owner->getComponent("transform"));
@@ -127,35 +128,72 @@ void HM_MotionComponent::onUpdateStart()
 
 }
 
-glm::vec3 HM_MotionComponent::getVelocity() const
+void HM_MotionComponent::onActivation()
 {
 
-	return m_velocity;
+	m_timeLastFrame = SDL_GetTicks();
 
 }
 
-void HM_MotionComponent::setTranslationvelocityX(float translationVelocityX)
+void HM_MotionComponent::reset()
+{
+
+	resetTranslationVelocity();
+	resetRotationVelocity();
+	resetScalingVelocity();
+
+}
+
+void HM_MotionComponent::resetTranslationVelocity()
+{
+
+	m_translationVelocity = m_originalTranslationVelocity;
+
+}
+
+void HM_MotionComponent::resetRotationVelocity()
+{
+
+	m_rotationVelocity = m_originalRotationVelocity;
+
+}
+
+void HM_MotionComponent::resetScalingVelocity()
+{
+
+	m_scalingVelocity = m_originalScalingVelocity;
+
+}
+
+glm::vec3 HM_MotionComponent::getTranslationVelocity() const
+{
+
+	return m_translationVelocity;
+
+}
+
+void HM_MotionComponent::setTranslationVelocityX(float translationVelocityX)
 {
 
 	m_translationVelocity.x = translationVelocityX;
 
 }
 
-void HM_MotionComponent::setTranslationvelocityY(float translationVelocityY)
+void HM_MotionComponent::setTranslationVelocityY(float translationVelocityY)
 {
 
 	m_translationVelocity.y = translationVelocityY;
 
 }
 
-void HM_MotionComponent::setTranslationvelocityZ(float translationVelocityZ)
+void HM_MotionComponent::setTranslationVelocityZ(float translationVelocityZ)
 {
 
 	m_translationVelocity.z = translationVelocityZ;
 
 }
 
-void HM_MotionComponent::setTranslationvelocity(glm::vec3 translationVelocity)
+void HM_MotionComponent::setTranslationVelocity(glm::vec3 translationVelocity)
 {
 
 	m_translationVelocity = translationVelocity;

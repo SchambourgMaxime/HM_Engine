@@ -1,0 +1,14 @@
+[COMPONENTS]
+transform sprite
+
+[ATTRIBUTES]
+position=:vec3:(-65.0,0.0,-91.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(9.0,13.0,1.0)
+spriteName=:str:forest
+spritePivot=:vec3:(0.5,0.5,0.5)
+spriteTextureFile=:str:tree2.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag
+linearCopyNumber=:int:1000
+linearCopyAxis=:vec3:(1.5.0,0.0,0.0)

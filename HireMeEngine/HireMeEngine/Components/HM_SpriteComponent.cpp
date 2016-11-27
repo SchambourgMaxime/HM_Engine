@@ -66,9 +66,13 @@ bool HM_SpriteComponent::setup(std::map<std::string, void*> descr)
 
 	setupTexture("spriteTextureFile", descr);
 
-	setupSprite("spriteFile", "spriteSize", "spritePivot", descr);
+	setupSprite("spriteFile", "spriteSize", "spritePivot",
+		"spriteUVMin", "spriteUVMax", descr);
 
 	setupShader("spriteVertexShader", "spriteFragmentShader", descr);
+
+	setupLinearCopy("linearCopyNumber", "linearCopyOffset", "linearCopyAxis",
+		descr);
 
 	return true;
 
@@ -92,6 +96,8 @@ void HM_SpriteComponent::update()
 bool HM_SpriteComponent::setupSprite(std::string Attribute1Name,
 	std::string Attribute2Name,
 	std::string Attribute3Name,
+	std::string Attribute4Name,
+	std::string Attribute5Name,
 	std::map<std::string, void*> descr)
 {
 
@@ -142,12 +148,6 @@ bool HM_SpriteComponent::setupSprite(std::string Attribute1Name,
 				}
 
 			}
-			else
-			{
-
-				m_size = glm::vec2(1.0f, 1.0f);
-
-			}
 
 		}
 
@@ -156,11 +156,24 @@ bool HM_SpriteComponent::setupSprite(std::string Attribute1Name,
 
 		if (iter != descr.end())
 			m_pivot = hmu::getDataFromVoid<glm::vec2>((*iter).second);
+
+
+		// UV min loading
+		iter = descr.find(Attribute4Name);
+
+		if (iter != descr.end())
+			m_uvMin = hmu::getDataFromVoid<glm::vec2>((*iter).second);
+
+		// UV max loading
+		iter = descr.find(Attribute5Name);
+
+		if (iter != descr.end())
+			m_uvMax = hmu::getDataFromVoid<glm::vec2>((*iter).second);
 		else
-			m_pivot = glm::vec2(0.0f, 0.0f);
+			m_uvMax = glm::vec2(1.0f, 1.0f);
 
 		m_pMesh = m_pGraphicsManager->loadSprite(m_name, m_size, m_pivot,
-			HM_VBO_STATIC);
+			m_uvMin, m_uvMax, HM_VBO_STATIC);
 
 		m_isAnimated = false;
 

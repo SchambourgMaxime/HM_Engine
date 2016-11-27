@@ -29,6 +29,8 @@ const std::vector<std::string> HM_SceneObject::updateComponentList =
 
 	"joystick",
 	"character",
+	"activator",
+	"damageDealer",
 	"motion",
 	"transform",
 	"boxCollider",
@@ -49,7 +51,8 @@ const std::vector<std::string> HM_SceneObject::updateComponentList =
 HM_SceneObject::HM_SceneObject() :
 	m_position(glm::vec3(0.0f, 0.0f, 0.0f)),
 	m_eulerAngles(glm::vec3(0.0f, 0.0f, 0.0f)),
-	m_scale(glm::vec3(1.0f, 1.0f, 1.0f))
+	m_scale(glm::vec3(1.0f, 1.0f, 1.0f)),
+	m_isUpdatable(true), m_isDisplayable(true)
 {
 }
 
@@ -67,7 +70,8 @@ m_name(name),
 m_parent(parent),
 m_position(glm::vec3(0.0f, 0.0f, 0.0f)),
 m_eulerAngles(glm::vec3(0.0f, 0.0f, 0.0f)),
-m_scale(glm::vec3(1.0f, 1.0f, 1.0f))
+m_scale(glm::vec3(1.0f, 1.0f, 1.0f)),
+m_isUpdatable(true), m_isDisplayable(true)
 {
 }
 
@@ -99,7 +103,14 @@ HM_SceneObject::~HM_SceneObject()
 }
 
 
-	// --- ACCESSORS ---
+std::string HM_SceneObject::getName() const
+{
+
+	return m_name;
+
+}
+
+// --- ACCESSORS ---
 
 /*		getComponent
 *
@@ -132,6 +143,26 @@ HM_SceneObject* HM_SceneObject::getParent()
 {
 
 	return m_parent;
+
+}
+
+std::map<std::string, HM_SceneObject*> const & HM_SceneObject::getChildren() const
+{
+
+	return m_children;
+
+}
+
+HM_SceneObject* HM_SceneObject::getChild(std::string childName)
+{
+
+	std::map<std::string, HM_SceneObject*>::const_iterator iter;
+	iter = m_children.find(childName);
+
+	if (iter != m_children.end())
+		return m_children[childName];
+
+	return NULL;
 
 }
 
@@ -175,19 +206,44 @@ bool HM_SceneObject::isValid() const
 bool HM_SceneObject::load()
 {
 
-	bool isSuccesful = true;
+// 	bool isSuccesful = true;
+// 
+// 
+// 
+// 	isSuccesful = onSetupStart();
+// 	isSuccesful = setup();
+// 	isSuccesful = onSetupEnd();
+// 
+// 	// Memory liberation
+// 	std::map<std::string, void*>::const_iterator iterData;
+// 	iterData = compDataMap.begin();
+// 
+// 	for (; iterData != compDataMap.end(); iterData++)
+// 		delete (*iterData).second;
+// 
+// 
+// 	// Children creation and loading
+// 	std::list<std::string> listStringChildren;
+// 	listStringChildren = file.getSectionWithTitle("Children");
+// 
+// 	iter = listStringChildren.begin();
+// 
+// 	for (; iter != listStringChildren.end(); iter++)
+// 	{
+// 
+// 		HM_SceneObject* currentChild = new HM_SceneObject(*iter, this);
+// 		isSuccesful = currentChild->load();
+// 
+// 		m_children[*iter] = currentChild;
+// 
+// 	}
+// 
+ 	return true;
 
-	// File loading
-	HM_FileHandler file("./SceneObjects/" +  m_name + ".hmso", HM_FILE_READ);
+}
 
-	if (!file)
-	{
-
-		GAME_LOG->_ADDLINETOLOG_LINE("Error : couldn't find scene object file \'SceneObjects/" + m_name + ".hmso\'" , __LINE__ - 5);
-
-		return false;
-
-	}
+void HM_SceneObject::loadDataMap(HM_FileHandler file)
+{
 
 	// Components Creation
 	std::list<std::string> listStringComponents;
@@ -205,14 +261,14 @@ bool HM_SceneObject::load()
 
 		std::vector<std::string> componentsArray;
 		componentsArray = hmu::getStringArrayFromString(currentComponentString,
-														" ");
-		for (unsigned int i = 0; i < componentsArray.size(); i++)			
-			m_componentMap[componentsArray[i]] = componentFactory.create(componentsArray[i], this);
+			" ");
+		for (unsigned int i = 0; i < componentsArray.size(); i++)
+			m_componentMap[componentsArray[i]] =
+				componentFactory.create(componentsArray[i], this);
 
 	}
 
 	// Components setup
-	std::map<std::string, void*> compDataMap;
 
 	listStringComponents = file.getSectionWithTitle("Attributes");
 	iter = listStringComponents.begin();
@@ -220,85 +276,143 @@ bool HM_SceneObject::load()
 	for (; iter != listStringComponents.end(); iter++)
 	{
 
-		unsigned char startAttribute = static_cast<unsigned char>((*iter).find_first_of('='));
-		if(startAttribute != 255)
+		unsigned char startAttribute =
+			static_cast<unsigned char>((*iter).find_first_of('='));
+		if (startAttribute != 255)
 		{
 
 			std::string compKey = (*iter).substr(0, startAttribute);
 
-			compDataMap[compKey] = hmu::getDataFromString((*iter).substr(startAttribute + 1));
-			
+			m_componentDataMap[compKey] =
+				hmu::getDataFromString((*iter).substr(startAttribute + 1));
+
 		}
 
 	}
+
+}
+
+bool HM_SceneObject::onSetupStart()
+{
+
+	// File loading
+	HM_FileHandler file("./SceneObjects/" + m_name + ".hmso", HM_FILE_READ);
+
+	if (!file)
+	{
+
+		GAME_LOG->_ADDLINETOLOG_LINE("Error : couldn't find scene object file \'SceneObjects/" + m_name + ".hmso\'", __LINE__ - 5);
+
+		return false;
+
+	}
+
+	loadDataMap(file);
 
 	// Start
 	std::map<std::string, HM_Component*>::const_iterator iterComp;
 	iterComp = m_componentMap.begin();
 
 	for (; iterComp != m_componentMap.end(); iterComp++)
-		if (!(*iterComp).second->onSetupStart(compDataMap))
+		if (!(*iterComp).second->onSetupStart(m_componentDataMap))
 		{
 
 			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
 				(*iterComp).first);
 
-			isSuccesful = false;
-			break;
+			return false;
 
 		}
 
-	// Setup
-	iterComp = m_componentMap.begin();
 
-	for(;iterComp != m_componentMap.end(); iterComp++)
-		if (!(*iterComp).second->setup(compDataMap))
-		{
-			
-			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
-				(*iterComp).first);
-
-			isSuccesful = false;
-			break;
-
-		}
-
-	// End
-	iterComp = m_componentMap.begin();
-
-	for (; iterComp != m_componentMap.end(); iterComp++)
-		if (!(*iterComp).second->onSetupEnd(compDataMap))
-		{
-
-			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
-				(*iterComp).first);
-
-			isSuccesful = false;
-			break;
-
-		}
-
-	// Memory liberation
-	std::map<std::string, void*>::const_iterator iterData;
-	iterData = compDataMap.begin();
-
-	for (; iterData != compDataMap.end(); iterData++)
-		delete (*iterData).second;
-
+	bool isSuccesful = true;
 
 	// Children creation and loading
 	std::list<std::string> listStringChildren;
 	listStringChildren = file.getSectionWithTitle("Children");
 
-	iter = listStringChildren.begin();
+	std::list<std::string>::const_iterator iter = listStringChildren.begin();
 
 	for (; iter != listStringChildren.end(); iter++)
 	{
 
 		HM_SceneObject* currentChild = new HM_SceneObject(*iter, this);
-		currentChild->load();
+		isSuccesful = currentChild->onSetupStart();
 
 		m_children[*iter] = currentChild;
+
+	}
+
+	return isSuccesful;
+
+}
+
+bool HM_SceneObject::setup()
+{
+
+	// Setup
+	std::map<std::string, HM_Component*>::const_iterator iterComp;
+	iterComp = m_componentMap.begin();
+
+	for (; iterComp != m_componentMap.end(); iterComp++)
+		if (!(*iterComp).second->setup(m_componentDataMap))
+		{
+
+			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
+				(*iterComp).first);
+
+			return false;
+
+		}
+
+
+	bool isSuccesful = true;
+
+	// Children creation and loading
+	std::map<std::string, HM_SceneObject*>::const_iterator iter;
+	iter = m_children.begin();
+
+	for (; iter != m_children.end(); iter++)
+	{
+
+		HM_SceneObject* currentChild = iter->second;
+		isSuccesful = currentChild->setup();
+
+	}
+
+		return isSuccesful;
+
+}
+
+bool HM_SceneObject::onSetupEnd()
+{
+
+	// End
+	std::map<std::string, HM_Component*>::const_iterator iterComp;
+	iterComp = m_componentMap.begin();
+
+	for (; iterComp != m_componentMap.end(); iterComp++)
+		if (!(*iterComp).second->onSetupEnd(m_componentDataMap))
+		{
+
+			GAME_LOG->_ADDLINETOLOG("Error : Can't load component " +
+				(*iterComp).first);
+
+			return false;
+
+		}
+		
+	bool isSuccesful = true;
+
+	// Children creation and loading
+	std::map<std::string, HM_SceneObject*>::const_iterator iter;
+	iter = m_children.begin();
+
+	for (; iter != m_children.end(); iter++)
+	{
+
+		HM_SceneObject* currentChild = iter->second;
+		isSuccesful = currentChild->onSetupEnd();
 
 	}
 
@@ -316,7 +430,7 @@ void HM_SceneObject::onUpdateStart()
 		HM_Component* currentComponent = getComponent(updateComponentList[i]);
 
 		if (currentComponent)
-			if (currentComponent->isActive())
+			if (currentComponent->isUpdatable())
 				currentComponent->onUpdateStart();
 
 	}
@@ -350,7 +464,7 @@ void HM_SceneObject::update()
 		HM_Component* currentComponent = getComponent(updateComponentList[i]);
 
 		if (currentComponent)
-			if (currentComponent->isActive())
+			if (currentComponent->isUpdatable())
 				currentComponent->update();
 
 	}
@@ -380,7 +494,7 @@ void HM_SceneObject::onUpdateEnd()
 		HM_Component* currentComponent = getComponent(updateComponentList[i]);
 
 		if (currentComponent)
-			if (currentComponent->isActive())
+			if (currentComponent->isUpdatable())
 				currentComponent->onUpdateEnd();
 
 	}
@@ -412,21 +526,21 @@ void HM_SceneObject::display()
 
 	// Start
 	for (; iter != m_componentMap.end(); iter++)
-		if ((*iter).second->isActive())
+		if ((*iter).second->isDisplayable())
 			(*iter).second->onDisplayStart();
 
 	iter = m_componentMap.begin();
 
 	// Display
 	for (; iter != m_componentMap.end(); iter++)
-		if ((*iter).second->isActive())
+		if ((*iter).second->isDisplayable())
 			(*iter).second->display();
 
 	iter = m_componentMap.begin();
 
 	// End
 	for (; iter != m_componentMap.end(); iter++)
-		if ((*iter).second->isActive())
+		if ((*iter).second->isDisplayable())
 			(*iter).second->onDisplayEnd();
 
 
@@ -443,3 +557,92 @@ void HM_SceneObject::display()
 	}
 
 }
+
+void HM_SceneObject::onCollision(HM_SceneObject* other, Direction direction)
+{
+
+	if (m_parent)
+		m_parent->onCollision(other, direction);
+
+	std::map<std::string, HM_Component*>::const_iterator iter;
+	iter = m_componentMap.begin();
+
+	// Start
+	for (; iter != m_componentMap.end(); iter++)
+		if ((*iter).second->isUpdatable())
+			(*iter).second->onCollision(other, direction);
+
+// 	if (m_children.size() > 0U)
+// 	{
+// 
+// 		std::map<std::string, HM_SceneObject*>::const_iterator iter;
+// 		iter = m_children.begin();
+// 		for (;iter != m_children.end(); iter++)
+// 			(*iter).second->onCollision(other, direction);
+// 
+// 	}
+
+}
+
+bool HM_SceneObject::isUpdatable() const
+{
+
+	return m_isUpdatable;
+
+}
+
+bool HM_SceneObject::isDisplayable() const
+{
+
+	return m_isDisplayable;
+
+}
+
+void HM_SceneObject::setIsUpdatable(bool isActive)
+{
+
+	if (m_isUpdatable == !isActive)
+	{
+
+		std::map<std::string, HM_Component*>::const_iterator iterComp =
+			m_componentMap.begin();
+
+			for (; iterComp != m_componentMap.end(); iterComp++)
+				(*iterComp).second->setIsUpdatable(isActive);
+
+		std::map<std::string, HM_SceneObject*>::const_iterator iterChildren =
+			m_children.begin();
+
+		for (; iterChildren != m_children.end(); iterChildren++)
+			(*iterChildren).second->setIsUpdatable(isActive);
+
+	}
+		
+	m_isUpdatable = isActive;
+
+}
+
+void HM_SceneObject::setIsDisplayable(bool isActive)
+{
+
+	if (m_isUpdatable == !isActive)
+	{
+
+		std::map<std::string, HM_Component*>::const_iterator iterComp =
+			m_componentMap.begin();
+
+		for (; iterComp != m_componentMap.end(); iterComp++)
+			(*iterComp).second->setIsDisplayable(isActive);
+
+		std::map<std::string, HM_SceneObject*>::const_iterator iterChildren =
+			m_children.begin();
+
+		for (; iterChildren != m_children.end(); iterChildren++)
+			(*iterChildren).second->setIsDisplayable(isActive);
+
+	}
+
+	m_isDisplayable = isActive;
+
+}
+

@@ -34,7 +34,9 @@ HM_Camera::HM_Camera() :
 	m_orientation(), m_verticalAxis(0, 1, 0),
 	m_lateralDisplacement(),
 	m_position(), m_targetPoint(),
-	m_sensibility(0.0), m_speed(0.0)
+	m_sensibility(0.0), m_speed(0.0),
+	m_isLerping(false), m_lerpPosition(glm::vec3(0.0f)),
+	m_lerpSpeed(0.5f)
 {
 }
 
@@ -59,7 +61,9 @@ HM_Camera::HM_Camera(glm::vec3 position, glm::vec3 targetPoint,
 	m_lateralDisplacement(),
 	m_position(position), m_targetPoint(targetPoint),
 	m_sensibility(sensibility), m_speed(speed),
-	m_speedButtonDown(false)
+	m_speedButtonDown(false),
+	m_isLerping(false), m_lerpPosition(glm::vec3(0.0f)),
+	m_lerpSpeed(0.5f)
 {
 
 	setTargetPoint(targetPoint);
@@ -345,5 +349,28 @@ void HM_Camera::lookAt(glm::mat4 &modelview)
 
 	// Change modelview to be at the position and look at the target point
 	modelview = glm::lookAt(m_position, m_targetPoint, m_verticalAxis);
+
+}
+
+void HM_Camera::lerpTo(glm::vec3 target, float speed)
+{
+
+	m_lerpPosition = target;
+
+	m_lerpSpeed = speed;
+
+	m_isLerping = true;
+
+}
+
+void HM_Camera::update()
+{
+
+	if (m_isLerping && glm::abs(m_lerpPosition.y - m_position.y) > 0.05f)
+		setPosition(glm::vec3(getPosition().x,
+			glm::mix(m_position.y, m_lerpPosition.y, m_lerpSpeed),
+			getPosition().z));
+	else if(m_isLerping)
+		m_isLerping = false;
 
 }

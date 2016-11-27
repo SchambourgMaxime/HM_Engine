@@ -59,10 +59,10 @@ namespace hmm
 		float sin_t = sin(angle * (float)M_PI / 180);
 		float cos_t = cos(angle * (float)M_PI / 180);
 
-		float xPrime = vertex.x * cos_t - vertex.z * sin_t;
-		float zPrime = vertex.z * cos_t + vertex.x * sin_t;
+		float xPrime = vertex.x * cos_t - vertex.y * sin_t;
+		float yPrime = vertex.y * cos_t + vertex.x * sin_t;
 
-		return glm::vec3(xPrime, vertex.y, zPrime);
+		return glm::vec3(xPrime, yPrime, vertex.z);
 
 	}
 

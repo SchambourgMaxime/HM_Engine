@@ -2,9 +2,9 @@
 transform mesh boxCollider
 
 [ATTRIBUTES]
-position=:vec3:(0.0,0.0,0.0)
+position=:vec3:(0.0,0.0,-2.0)
 rotation=:vec3:(0.0,-90.0,0.0)
-scale=:vec3:(3.0,3.0,2.4)
+scale=:vec3:(1.5,1.5,1.2)
 linearCopyNumber=:int:100
 linearCopyAxis=:vec3:(0.0,0.0,1.0)
 meshFile=:str:sidewalk.obj

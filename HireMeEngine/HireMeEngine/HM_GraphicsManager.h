@@ -132,11 +132,17 @@ public:
 	HM_Sprite* loadSprite(std::string name,
 						  glm::vec2 pivot,
 						  glm::vec2 size,
+						  glm::vec2 uvMin,
+						  glm::vec2 uvMax,
 						  unsigned char changeFrequencyCoords);
 
 	void addMeshtoVBOData(HM_Mesh* meshToAdd,
 						  unsigned char changeFrequencyCoords,
 						  unsigned char changeFrequencyTexCoords);
+
+	void refreshVBOData(HM_Mesh* mesh,
+						unsigned char changeFrequencyCoords,
+						unsigned char changeFrequencyTexCoords);
 
 	// Create and load a texture if it is not already loaded
 	HM_Texture* loadTexture(std::string textureFilePath);

@@ -54,12 +54,20 @@ public:
 	// No display for the box collider
 	virtual void display() override;
 
+	HM_Cube getOriginalBox() const;
+
+	bool isTrigger() const;
+
+	void setOriginalBox(HM_Cube const & box);
+
 private:
 
 	static std::vector<HM_BoxColliderComponent*> colliders;
 
 	// Behavior during collision
 	void onCollision(HM_BoxColliderComponent& other);
+
+	Direction collisionDirection(HM_Cube const & previousOther, HM_Cube const & other);
 
 	void recalculateTransformedBox();
 

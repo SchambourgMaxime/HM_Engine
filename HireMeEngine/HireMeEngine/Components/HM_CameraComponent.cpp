@@ -101,17 +101,27 @@ bool HM_CameraComponent::setup(std::map<std::string, void*> descr)
 	if (iter != descr.end())
 		m_behavior = hmu::getDataFromVoid<std::string>((*iter).second);
 
+	iter = descr.find("lockX");
+
+	if (iter != descr.end())
+		m_lockOnX = hmu::getDataFromVoid<bool>((*iter).second);
+
+	iter = descr.find("lockY");
+
+	if (iter != descr.end())
+		m_lockOnY = hmu::getDataFromVoid<bool>((*iter).second);
+
+	iter = descr.find("lockZ");
+
+	if (iter != descr.end())
+		m_lockOnZ = hmu::getDataFromVoid<bool>((*iter).second);
+
 	m_camera = pGraphicsManager->loadCamera(m_name, posCamera, targetPoint,
 											sensibility, speed);
 
 	m_updateModelview = true;
 
 	return true;
-
-}
-
-void HM_CameraComponent::display()
-{
 
 }
 
@@ -128,35 +138,53 @@ void HM_CameraComponent::update()
 	else
 	{
 
-		HM_Component* componentTransform = m_owner->getComponent("transform");
+		HM_TransformComponent* transform =
+			m_owner->getComponentInObject<HM_TransformComponent>("transform");
 
-		if (componentTransform)
+		if (transform)
 		{
 
-			HM_TransformComponent* transform =
-				static_cast<HM_TransformComponent*>(componentTransform);
+			m_camera->setPosition(glm::vec3(
+				m_lockOnX ? m_camera->getPosition().x : 
+					transform->getWorldPosition().x,
+				m_lockOnY ? m_camera->getPosition().y : 
+					transform->getWorldPosition().y,
+				m_lockOnZ ? m_camera->getPosition().z : 
+					transform->getWorldPosition().z 
+				));
 
-			if (transform)
-			{
-
-				m_camera->setPosition(transform->getWorldPosition());
-				m_updateModelview = true;
-
-			}
+			m_updateModelview = true;
 
 		}
 
+		m_camera->update();
 
 	}
 
-	if (m_updateModelview)
-	{
 
+
+// 	if (m_updateModelview)
+// 	{
+// 
 		m_camera->lookAt(HM_GameMaster::instance()->getGraphicsManager()->
 			getModelview());
+// 
+// 		m_updateModelview = false;
+// 
+// 	}
 
-		m_updateModelview = false;
+}
 
-	}
+std::string HM_CameraComponent::getName() const
+{
+
+	return m_name;
+
+}
+
+HM_Camera* const HM_CameraComponent::getCamera() const
+{
+
+	return m_camera;
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEBUG false
+#define DEBUG true
 
 #define LIMITELEMENTSCOLLISION 5U
 
@@ -13,6 +13,24 @@ DOWN,
 LEFT,
 RIGHT,
 FRONT,
-BOTTOM
+BOTTOM,
+UNDEFINED
+};
+
+enum CharacterState
+{
+IDLE = 0,
+WALKING,
+RUNNING,
+JUMPING,
+FALLING,
+SLIDING
+};
+
+enum CharacterHealthState
+{
+SAFE,
+RECOVERING,
+DEAD
 };
 

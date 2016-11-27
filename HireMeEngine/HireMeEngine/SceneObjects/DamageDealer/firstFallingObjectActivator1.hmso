@@ -1,0 +1,13 @@
+[COMPONENTS]
+transform boxCollider activator
+
+[ATTRIBUTES]
+position=:vec3:(540.0,0.0,0.55)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(1.0,1.0,1.0)
+collider=:cube:(0.7,0.0,10.0,0.0,1.0,-1.0)
+colliderIsTrigger=:bool:true
+activatedTime=:int:2500
+
+[CHILDREN]
+DamageDealer/FirstFallingObject1
