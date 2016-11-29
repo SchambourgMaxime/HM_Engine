@@ -114,6 +114,9 @@
     <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
+    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HM_GameMaster.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h">
       <Filter>MSAA</Filter>
+    </ClInclude>
+    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

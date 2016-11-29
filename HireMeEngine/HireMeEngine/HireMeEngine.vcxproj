@@ -183,6 +183,7 @@
     <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Character.cpp" />
     <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp" />
     <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp" />
+    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\HM_BoxColliderComponent.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.h" />
     <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h" />
     <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h" />
+    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

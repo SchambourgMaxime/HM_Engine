@@ -33,14 +33,15 @@ HM_SoundManager::HM_SoundManager()
 	Mix_Music *music2 = NULL;
 
 	//Initialize SDL_mixer
-	if (Mix_OpenAudio(88000, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
 	{
 		return;
 	}
 
-	music2 = Mix_LoadMUS("Nekromantik theme.mp3");
+	music2 = Mix_LoadMUS("Azureflux_-_06_-_Catnip.mp3");
+	Mix_VolumeMusic(40);
 
-	//Mix_PlayMusic(music2, -1);
+	Mix_PlayMusic(music2, -1);
 
 }
 
@@ -101,6 +102,7 @@ Mix_Chunk* HM_SoundManager::loadSFX(std::string sfxFilePath)
 	{
 
 		sfxToReturn = Mix_LoadWAV(sfxFilePath.c_str());
+		Mix_VolumeChunk(sfxToReturn, MIX_MAX_VOLUME);
 
 		if (sfxToReturn)
 		{

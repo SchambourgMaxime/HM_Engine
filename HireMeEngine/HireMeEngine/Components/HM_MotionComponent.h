@@ -33,6 +33,7 @@ class HM_MotionComponent : public HM_Component
 {
 
 public:
+	/** Public functions **/
 
 	// Constructor
 	HM_MotionComponent(HM_SceneObject* owner) : HM_Component(owner) {}
@@ -69,6 +70,7 @@ public:
 	void setScalevelocity(glm::vec3 scaleVelocity);
 
 private:
+	/** Private variables **/
 
 	// Velocity of the motion applied
 	glm::vec3 m_translationVelocity;

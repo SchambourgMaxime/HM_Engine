@@ -207,12 +207,20 @@ std::vector<T*> HM_SceneObject::getAllComponentsInChildren(
 
 	std::vector<T*> componentArray;
 
+	T* component = NULL;
+
 	for (; iter != m_children.end(); iter++)
 	{
 
 		if ((component =
 			(*iter).second->getComponentInObject<T>(componentName)))
-			componentArray.push_back(component)
+			componentArray.push_back(component);
+
+		std::vector<T*> childComponents =
+			(*iter).second->getAllComponentsInChildren<T>(componentName);
+		
+		for(unsigned int i = 0; i < childComponents.size(); i++)
+			componentArray.push_back(childComponents[i]);
 
 	}
 

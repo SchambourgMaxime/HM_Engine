@@ -185,10 +185,15 @@ void HM_BoxColliderComponent::update()
 
 	m_transformedBox = originalTransformBox;
 
+	recalculateTransformedBox();
+
 }
 
 void HM_BoxColliderComponent::onUpdateEnd()
 {
+
+	recalculateTransformedBox();
+
 }
 
 void HM_BoxColliderComponent::display()
@@ -284,6 +289,10 @@ void HM_BoxColliderComponent::onCollision(HM_BoxColliderComponent& other)
 				transformComponent->translate(
 					glm::vec3(0.0f, -(other.m_transformedBox.getYMax() -
 					m_transformedBox.getYMin()), 0.0f));
+			else
+				transformComponent->translate(
+					glm::vec3(0.0f, m_transformedBox.getYMax() -
+						other.m_transformedBox.getYMin(), 0.0f));
 
 			other.recalculateTransformedBox();
 

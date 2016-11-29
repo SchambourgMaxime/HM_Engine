@@ -1,0 +1,15 @@
+[COMPONENTS]
+transform motion mesh boxCollider damageDealer
+
+[ATTRIBUTES]
+position=:vec3:(30.0,9.0,0.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(0.5,0.5,0.5)
+meshFile=:str:cube.obj
+textureFile=:str:cube.png
+vertexShader=:str:texture.vert
+fragmentShader=:str:texture.frag
+colliderIsTrigger=:bool:true
+hasGravity=:bool:true
+isBouncy=:bool:true
+bounceStrength=:float:15.0

@@ -89,6 +89,13 @@ HM_GraphicsManager* const HM_GameMaster::getGraphicsManager()
 
 }
 
+HM_SoundManager* const HM_GameMaster::getSoundManager()
+{
+
+	return m_pSoundManager;
+
+}
+
 /*		getInputsManager
 *
 *		return : HM_InputManager -> constant pointer to the inputs manager of
@@ -213,6 +220,7 @@ void HM_GameMaster::gameLoop()
 
 	while (!m_pInputManager->ended())
 	{
+
 		loopStart = SDL_GetTicks();
 
 

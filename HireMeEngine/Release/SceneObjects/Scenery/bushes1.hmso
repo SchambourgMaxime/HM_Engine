@@ -1,0 +1,13 @@
+[COMPONENTS]
+transform sprite
+
+[ATTRIBUTES]
+position=:vec3:(-75.0,0.0,-5.0)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(3.0,3.0,1.0)
+spriteName=:str:bush
+spriteTextureFile=:str:bush.png
+spriteVertexShader=:str:texture.vert
+spriteFragmentShader=:str:texture.frag
+linearCopyNumber=:int:1000
+linearCopyOffset=:vec3:(80.0,0.0,0.0)

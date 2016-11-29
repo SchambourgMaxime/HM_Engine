@@ -50,7 +50,12 @@ bool MSAA_DamageDealer::setup(std::map<std::string, void*> descr)
 	iter = descr.find("bounceStrength");
 
 	if (iter != descr.end())
-		m_bounceStrength = hmu::getDataFromVoid<bool>((*iter).second);
+		m_bounceStrength = hmu::getDataFromVoid<float>((*iter).second);
+
+	iter = descr.find("mass");
+
+	if (iter != descr.end())
+		m_mass = hmu::getDataFromVoid<float>((*iter).second);
 
 	return true;
 
@@ -74,7 +79,7 @@ void MSAA_DamageDealer::update()
 
 		if(motion)
 			motion->setTranslationVelocityY(motion->getTranslationVelocity().y
-												- GRAVITY * 0.03f);
+												- GRAVITY * m_mass);
 
 	}
 

@@ -1,0 +1,15 @@
+[COMPONENTS]
+transform mesh boxCollider damageDealer
+
+[ATTRIBUTES]
+position=:vec3:(1392.0,2.0,0.99)
+rotation=:vec3:(0.0,0.0,0.0)
+scale=:vec3:(1.0,1.0,1.0)
+meshFile=:str:cube.obj
+textureFile=:str:cube.png
+vertexShader=:str:texture.vert
+fragmentShader=:str:texture.frag
+linearCopyNumber=:int:6
+linearCopyAxis=:vec3:(0.0,1.0,0.0)
+colliderIsTrigger=:bool:true
+hasGravity=:bool:true

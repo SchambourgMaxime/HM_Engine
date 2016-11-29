@@ -53,7 +53,10 @@ public:
 
 	void damage();
 
+	void stopMovement();
+
 private:
+	/** Private functions **/
 
 	void updateSpeedBar();
 	void updateLifeBar();
@@ -69,6 +72,9 @@ private:
 
 	void resurect();
 	void onDeath();
+
+
+	/** Private variables **/
 
 	bool m_inputLocked;
 
@@ -102,5 +108,8 @@ private:
 
 	Uint32 m_timeSlideStart;
 	Uint32 m_timeRecoveryStart;
+
+	HM_SoundManager* soundManager;
+
 };
 

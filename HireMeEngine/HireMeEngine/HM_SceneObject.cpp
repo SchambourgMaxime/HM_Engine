@@ -30,6 +30,7 @@ const std::vector<std::string> HM_SceneObject::updateComponentList =
 	"joystick",
 	"character",
 	"activator",
+	"endGame",
 	"damageDealer",
 	"motion",
 	"transform",

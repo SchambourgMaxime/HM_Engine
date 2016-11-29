@@ -2,12 +2,21 @@
 transform character motion sprite boxCollider
 
 [ATTRIBUTES]
-position=:vec3:(-2.0,3.0,1.0)
+position=:vec3:(-2.0,4.0,1.0)
 rotation=:vec3:(0.0,0.0,0.0)
 scale=:vec3:(0.07,0.07,1.0)
-jumpStrength=:float:15.0f
-maxJumpStrength=:float:20.0f
-speed=:float:10.0f;
+healthPoints=:int:3
+recoveryTime=:int:1500
+resurectionTime=:int:2500
+jumpStrength=:float:15.0
+maxJumpStrength=:float:21.0
+speed=:float:15.0
+maxSpeed=:float:20.0
+minSpeed=:float:10.0
+slidingTime=:int:500
+standingCollider=:cube:(7.0,-7.0,34.0,0.0,0.0,0.0)
+slidingCollider=:cube:(7.0,-7.0,17.0,0.0,0.0,0.0)
+speedChangeRatio=:float:60.0
 spriteName=:str:player
 spriteFile=:str:character.hmsprite
 spriteTextureFile=:str:test_sprites.png
@@ -16,3 +25,5 @@ spriteFragmentShader=:str:texture.frag
 
 [CHILDREN]
 camera
+HUDlifeBar
+HUDspeedBar

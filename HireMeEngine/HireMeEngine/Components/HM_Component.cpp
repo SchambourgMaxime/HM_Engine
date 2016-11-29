@@ -29,6 +29,7 @@
 #include "../MaximeSchambourgAwesomeApplication/MSAA_DamageDealer.h"
 #include "../MaximeSchambourgAwesomeApplication/MSAA_Checkpoint.h"
 #include "../MaximeSchambourgAwesomeApplication/MSAA_Activator.h"
+#include "../MaximeSchambourgAwesomeApplication/MSAA_EndGame.h"
 
 
 /*				 IMPLEMENTATION					*/
@@ -147,4 +148,5 @@ HM_ComponentFactory::HM_ComponentFactory()
 	m_mapToFactoryObjects["damageDealer"] = new MSAA_DamageDealer(NULL);
 	m_mapToFactoryObjects["checkpoint"] = new MSAA_Checkpoint(NULL);
 	m_mapToFactoryObjects["activator"] = new MSAA_Activator(NULL);
+	m_mapToFactoryObjects["endGame"] = new MSAA_EndGame(NULL);
 }

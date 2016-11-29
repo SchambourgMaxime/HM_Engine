@@ -59,6 +59,7 @@ public:
 
 	HM_Log* const getGameLog();
 	HM_GraphicsManager* const getGraphicsManager();
+	HM_SoundManager* const getSoundManager();
 	HM_Input* const getInputsManager();
 
 

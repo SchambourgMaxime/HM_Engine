@@ -31,7 +31,7 @@ public:
 	// Constructor
 	MSAA_DamageDealer(HM_SceneObject* owner) : HM_Component(owner),
 	m_jumpNearCharacter(false), m_hasGravity(false), m_isGrounded(false),
-	m_isBouncy(false), m_bounceStrength(30.0f)
+	m_isBouncy(false), m_bounceStrength(20.0f), m_mass(0.03f)
 	{};
 	// Destructor
 	~MSAA_DamageDealer();
@@ -54,6 +54,8 @@ private:
 	bool m_hasGravity;
 	bool m_isGrounded;
 	bool m_isBouncy;
+
+	float m_mass;
 
 	float m_bounceStrength;
 

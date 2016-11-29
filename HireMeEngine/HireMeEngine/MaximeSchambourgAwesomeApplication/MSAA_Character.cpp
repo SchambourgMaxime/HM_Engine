@@ -20,6 +20,7 @@
 #include "../Components/HM_HUDComponent.h"
 #include "../Components/HM_BoxColliderComponent.h"
 #include "../HM_Sprite.h"
+#include "../HM_SoundManager.h"
 
 
 
@@ -119,8 +120,9 @@ bool MSAA_Character::setup(std::map<std::string, void*> descr)
 	if (iter != descr.end())
 		m_resurectionTime = hmu::getDataFromVoid<Uint32>((*iter).second);
 
-
-	HM_Input* input = HM_GameMaster::instance()->getInputsManager();
+	soundManager = HM_GameMaster::instance()->getSoundManager();
+	soundManager->loadSFX("jump3.wav");
+	soundManager->loadSFX("crash.wav");
 
 	HM_Component* componentMotion = m_owner->getComponent("motion");
 
@@ -197,6 +199,7 @@ void MSAA_Character::update()
 			else if (input->getKey(SDL_SCANCODE_W) && !m_inputLocked)
 			{
 
+				soundManager->playSFX("jump3.wav");
 				changeAnim("jump");
 				state = JUMPING;
 
@@ -413,6 +416,8 @@ void MSAA_Character::damage()
 
 		updateLifeBar();
 
+		soundManager->playSFX("crash.wav");
+
 		if (m_healthPoints == 0)
 		{
 
@@ -420,13 +425,20 @@ void MSAA_Character::damage()
 			return;
 
 		}
-			
+
 		m_timeRecoveryStart = SDL_GetTicks();
 		healthState = RECOVERING;
 
 		changeAnim("hurt");
 
 	}
+
+}
+
+void MSAA_Character::stopMovement()
+{
+
+	m_speed = 0;
 
 }
 
