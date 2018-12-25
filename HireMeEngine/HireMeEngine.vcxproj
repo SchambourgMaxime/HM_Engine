@@ -21,8 +21,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E2EDFF7-E649-436F-B0CB-E52924BE75F8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>HireMeEngine</RootNamespace>
+    <RootNamespace>HomeMadeEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>HomeMadeEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,15 +72,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>intermediate\</IntDir>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>intermediate\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>intermediate\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,14 +102,18 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;glew32.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <BuildLog>
+      <Path>intermediate\logs\$(MSBuildProjectName)_$(Configuration)_$(Platform).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -106,11 +123,18 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;glew32.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <BuildLog>
+      <Path>intermediate\logs\$(MSBuildProjectName)_$(Configuration)_$(Platform).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -122,7 +146,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,8 +155,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;glew32.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <BuildLog>
+      <Path>intermediate\logs\$(MSBuildProjectName)_$(Configuration)_$(Platform).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,83 +171,88 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;glew32.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <BuildLog>
+      <Path>intermediate\logs\$(MSBuildProjectName)_$(Configuration)_$(Platform).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Components\HM_BoxColliderComponent.cpp" />
-    <ClCompile Include="Components\HM_CameraComponent.cpp" />
-    <ClCompile Include="Components\HM_Component.cpp" />
-    <ClCompile Include="Components\HM_HUDComponent.cpp" />
-    <ClCompile Include="Components\HM_JoystickComponent.cpp" />
-    <ClCompile Include="Components\HM_MeshComponent.cpp" />
-    <ClCompile Include="Components\HM_MotionComponent.cpp" />
-    <ClCompile Include="Components\HM_SpriteComponent.cpp" />
-    <ClCompile Include="Components\HM_TransformComponent.cpp" />
-    <ClCompile Include="HM_Camera.cpp" />
-    <ClCompile Include="HM_CollisionManager.cpp" />
-    <ClCompile Include="HM_Cube.cpp" />
-    <ClCompile Include="HM_FileHandler.cpp" />
-    <ClCompile Include="HM_GameMaster.cpp" />
-    <ClCompile Include="HM_GraphicsManager.cpp" />
-    <ClCompile Include="HM_Input.cpp" />
-    <ClCompile Include="HM_Log.cpp" />
-    <ClCompile Include="HM_Mesh.cpp" />
-    <ClCompile Include="HM_Object.cpp" />
-    <ClCompile Include="HM_Octree.cpp" />
-    <ClCompile Include="HM_Scene.cpp" />
-    <ClCompile Include="HM_SceneObject.cpp" />
-    <ClCompile Include="HM_Shader.cpp" />
-    <ClCompile Include="HM_SoundManager.cpp" />
-    <ClCompile Include="HM_Sprite.cpp" />
-    <ClCompile Include="HM_Texture.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.cpp" />
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Character.cpp" />
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp" />
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp" />
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp" />
+    <ClCompile Include="..\src\Components\HM_BoxColliderComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_CameraComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_Component.cpp" />
+    <ClCompile Include="..\src\Components\HM_HUDComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_JoystickComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_MeshComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_MotionComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_SpriteComponent.cpp" />
+    <ClCompile Include="..\src\Components\HM_TransformComponent.cpp" />
+    <ClCompile Include="..\src\HM_Camera.cpp" />
+    <ClCompile Include="..\src\HM_CollisionManager.cpp" />
+    <ClCompile Include="..\src\HM_Cube.cpp" />
+    <ClCompile Include="..\src\HM_FileHandler.cpp" />
+    <ClCompile Include="..\src\HM_GameMaster.cpp" />
+    <ClCompile Include="..\src\HM_GraphicsManager.cpp" />
+    <ClCompile Include="..\src\HM_Input.cpp" />
+    <ClCompile Include="..\src\HM_Log.cpp" />
+    <ClCompile Include="..\src\HM_Mesh.cpp" />
+    <ClCompile Include="..\src\HM_Object.cpp" />
+    <ClCompile Include="..\src\HM_Octree.cpp" />
+    <ClCompile Include="..\src\HM_Scene.cpp" />
+    <ClCompile Include="..\src\HM_SceneObject.cpp" />
+    <ClCompile Include="..\src\HM_Shader.cpp" />
+    <ClCompile Include="..\src\HM_SoundManager.cpp" />
+    <ClCompile Include="..\src\HM_Sprite.cpp" />
+    <ClCompile Include="..\src\HM_Texture.cpp" />
+    <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Activator.cpp" />
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Character.cpp" />
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp" />
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp" />
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\HM_BoxColliderComponent.h" />
-    <ClInclude Include="Components\HM_CameraComponent.h" />
-    <ClInclude Include="Components\HM_Component.h" />
-    <ClInclude Include="components\HM_HUDComponent.h" />
-    <ClInclude Include="Components\HM_JoystickComponent.h" />
-    <ClInclude Include="Components\HM_MeshComponent.h" />
-    <ClInclude Include="Components\HM_MotionComponent.h" />
-    <ClInclude Include="Components\HM_SpriteComponent.h" />
-    <ClInclude Include="Components\HM_TransformComponent.h" />
-    <ClInclude Include="HM_Camera.h" />
-    <ClInclude Include="HM_CollisionManager.h" />
-    <ClInclude Include="HM_Constants.h" />
-    <ClInclude Include="HM_Cube.h" />
-    <ClInclude Include="HM_FileHandler.h" />
-    <ClInclude Include="HM_GameMaster.h" />
-    <ClInclude Include="HM_GraphicsManager.h" />
-    <ClInclude Include="HM_Input.h" />
-    <ClInclude Include="HM_Log.h" />
-    <ClInclude Include="HM_Math.h" />
-    <ClInclude Include="HM_Mesh.h" />
-    <ClInclude Include="HM_Object.h" />
-    <ClInclude Include="HM_Octree.h" />
-    <ClInclude Include="HM_Scene.h" />
-    <ClInclude Include="HM_SceneObject.h" />
-    <ClInclude Include="HM_Shader.h" />
-    <ClInclude Include="HM_SoundManager.h" />
-    <ClInclude Include="HM_Sprite.h" />
-    <ClInclude Include="HM_Texture.h" />
-    <ClInclude Include="HM_Utilities.h" />
-    <ClInclude Include="Maxime Schambourg Awesome Application\MSAA_Character.h" />
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.h" />
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h" />
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h" />
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.h" />
+    <ClInclude Include="..\src\Components\HM_BoxColliderComponent.h" />
+    <ClInclude Include="..\src\Components\HM_CameraComponent.h" />
+    <ClInclude Include="..\src\Components\HM_Component.h" />
+    <ClInclude Include="..\src\components\HM_HUDComponent.h" />
+    <ClInclude Include="..\src\Components\HM_JoystickComponent.h" />
+    <ClInclude Include="..\src\Components\HM_MeshComponent.h" />
+    <ClInclude Include="..\src\Components\HM_MotionComponent.h" />
+    <ClInclude Include="..\src\Components\HM_SpriteComponent.h" />
+    <ClInclude Include="..\src\Components\HM_TransformComponent.h" />
+    <ClInclude Include="..\src\HM_Camera.h" />
+    <ClInclude Include="..\src\HM_CollisionManager.h" />
+    <ClInclude Include="..\src\HM_Constants.h" />
+    <ClInclude Include="..\src\HM_GameMaster.h" />
+    <ClInclude Include="..\src\HM_GraphicsManager.h" />
+    <ClInclude Include="..\src\HM_Input.h" />
+    <ClInclude Include="..\src\HM_Log.h" />
+    <ClInclude Include="..\src\HM_Math.h" />
+    <ClInclude Include="..\src\HM_Mesh.h" />
+    <ClInclude Include="..\src\HM_Object.h" />
+    <ClInclude Include="..\src\HM_Octree.h" />
+    <ClInclude Include="..\src\HM_Scene.h" />
+    <ClInclude Include="..\src\HM_SceneObject.h" />
+    <ClInclude Include="..\src\HM_Shader.h" />
+    <ClInclude Include="..\src\HM_SoundManager.h" />
+    <ClInclude Include="..\src\HM_Sprite.h" />
+    <ClInclude Include="..\src\HM_Texture.h" />
+    <ClInclude Include="..\src\HM_Utilities.h" />
+    <ClInclude Include="..\src\Maxime Schambourg Awesome Application\MSAA_Character.h" />
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Activator.h" />
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h" />
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h" />
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_EndGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

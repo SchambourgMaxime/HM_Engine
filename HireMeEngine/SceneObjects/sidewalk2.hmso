@@ -11,4 +11,4 @@ vertexShader=:str:texture.vert
 fragmentShader=:str:texture.frag
 linearCopyNumber=:int:10
 linearCopyAxis=:vec3:(1.5,1.0,0.0)
-collider=:cube:(4.3,-2.3,-0.33,-0.33,1.8,0.2)
+collider=:cube:(-2.3,-0.33,0.2,4.3,-0.33,1.8)

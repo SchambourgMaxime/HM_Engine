@@ -21,205 +21,202 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_GameMaster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_GraphicsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_FileHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_SceneObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_BoxColliderComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_JoystickComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_MeshComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_MotionComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_Component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_TransformComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_SpriteComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_CameraComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\HM_HUDComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_SoundManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_CollisionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HM_Octree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Character.cpp">
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Activator.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp">
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Character.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.cpp">
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp">
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.cpp">
       <Filter>MSAA</Filter>
     </ClCompile>
-    <ClCompile Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp">
+    <ClCompile Include="..\src\HM_Camera.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_FileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_GameMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_GraphicsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Octree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_SceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HM_Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_EndGame.cpp">
+      <Filter>MSAA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_BoxColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_CameraComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_Component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_HUDComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_JoystickComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_MeshComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_MotionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_SpriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Components\HM_TransformComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HM_GameMaster.h">
+    <ClInclude Include="..\src\HM_Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Scene.h">
+    <ClInclude Include="..\src\HM_CollisionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_GraphicsManager.h">
+    <ClInclude Include="..\src\HM_Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Log.h">
+    <ClInclude Include="..\src\">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_FileHandler.h">
+    <ClInclude Include="..\src\HM_GameMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Object.h">
+    <ClInclude Include="..\src\HM_GraphicsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_SceneObject.h">
+    <ClInclude Include="..\src\HM_Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Mesh.h">
+    <ClInclude Include="..\src\HM_Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Utilities.h">
+    <ClInclude Include="..\src\HM_Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Shader.h">
+    <ClInclude Include="..\src\HM_Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Input.h">
+    <ClInclude Include="..\src\HM_Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Texture.h">
+    <ClInclude Include="..\src\HM_Octree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Camera.h">
+    <ClInclude Include="..\src\HM_Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Cube.h">
+    <ClInclude Include="..\src\HM_SceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\HM_BoxColliderComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_JoystickComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_MeshComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_MotionComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_TransformComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_Component.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\HM_SpriteComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HM_Sprite.h">
+    <ClInclude Include="..\src\HM_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\HM_CameraComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="components\HM_HUDComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HM_Constants.h">
+    <ClInclude Include="..\src\HM_SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_SoundManager.h">
+    <ClInclude Include="..\src\HM_Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_CollisionManager.h">
+    <ClInclude Include="..\src\HM_Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Octree.h">
+    <ClInclude Include="..\src\HM_Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HM_Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Maxime Schambourg Awesome Application\MSAA_Character.h">
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_EndGame.h">
       <Filter>MSAA</Filter>
     </ClInclude>
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h">
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Activator.h">
       <Filter>MSAA</Filter>
     </ClInclude>
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_Activator.h">
+    <ClInclude Include="..\src\Maxime Schambourg Awesome Application\MSAA_Character.h">
       <Filter>MSAA</Filter>
     </ClInclude>
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h">
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_Checkpoint.h">
       <Filter>MSAA</Filter>
     </ClInclude>
-    <ClInclude Include="MaximeSchambourgAwesomeApplication\MSAA_EndGame.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\src\MaximeSchambourgAwesomeApplication\MSAA_DamageDealer.h">
+      <Filter>MSAA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_BoxColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_CameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_Component.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\HM_HUDComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_JoystickComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_MeshComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_MotionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_SpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\HM_TransformComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
