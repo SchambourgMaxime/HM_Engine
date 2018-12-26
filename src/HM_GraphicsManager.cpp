@@ -74,6 +74,7 @@ int windowWidth, int windowHeight) :
 									(float)m_windowWidth / m_windowHeight,
 									m_frustumNearLimit,
 									m_frustumFarLimit);
+
 	m_modelview = glm::mat4(1.0);
 
 }
@@ -949,7 +950,6 @@ void HM_GraphicsManager::drawMesh(HM_Mesh* const mesh,
 		HM_Shader* shaderToUse;
 
 		glm::mat4 modelview = m_modelview;
-		glm::mat4 projection = m_projection;
 
 		if(shader)
 			shaderToUse = shader;
@@ -976,10 +976,9 @@ void HM_GraphicsManager::drawMesh(HM_Mesh* const mesh,
 
 			if (scale != glm::vec3(1.0f, 1.0f, 1.0f))
 				modelview = glm::scale(modelview, scale);
-		
-			glm::mat4 modelviewProjection(projection * modelview);
 
-			shaderToUse->sendMat4("modelviewProjection", modelviewProjection);
+			shaderToUse->sendMat4("modelview", modelview);
+			shaderToUse->sendMat4("projection", m_projection);
 
 			if (texture && texture->getIstransparent())
 			{

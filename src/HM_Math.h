@@ -36,11 +36,13 @@ namespace hmm
 
 	static glm::vec3 getClosestPointOnBox(const glm::vec3& boxMin, const glm::vec3& boxMax, const glm::vec3 point)
 	{
-		float x = glm::clamp(point.x, boxMin.x, boxMax.x);
-		float y = glm::clamp(point.y, boxMin.y, boxMax.y);
-		float z = glm::clamp(point.z, boxMin.z, boxMax.z);
+		glm::vec3 closestPoint;
 
-		return glm::vec3(x, y, z);
+		closestPoint.x = point.x < boxMin.x ? boxMin.x : (point.x > boxMax.x ? boxMax.x : point.x);
+		closestPoint.y = point.y < boxMin.y ? boxMin.y : (point.y > boxMax.y ? boxMax.y : point.y);
+		closestPoint.z = point.z < boxMin.z ? boxMin.z : (point.z > boxMax.z ? boxMax.z : point.z);
+
+		return closestPoint;
 	}
 
 	static glm::vec3 rotateVertexOnX(glm::vec3 vertex, float angle)

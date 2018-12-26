@@ -42,7 +42,7 @@ class HM_Shader
 
 		bool load();
 		bool compileShader(GLuint &shader, GLenum type, std::string const &sourceFile);
-		void sendMat4(std::string name, glm::mat4 matrix);
+		void sendMat4(const GLchar* name, const glm::mat4& matrix);
 
 		GLuint getProgramID() const;
 
@@ -51,7 +51,8 @@ class HM_Shader
 		static std::map<std::string, GLuint> vertexShaderLoaded;
 		static std::map<std::string, GLuint> fragmentShaderLoaded;
 
-		int m_matrixLocation;
+		int m_modelviewMatrixLocation;
+		int m_projectionMatrixLocation;
 
 		GLuint m_vertexID;
 		GLuint m_fragmentID;

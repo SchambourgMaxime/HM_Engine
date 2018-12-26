@@ -99,7 +99,8 @@ bool HM_Shader::load()
 	else
 	{
 
-		m_matrixLocation = glGetUniformLocation(m_programID, "modelviewProjection");
+		m_modelviewMatrixLocation = glGetUniformLocation(m_programID, "modelview");
+		m_projectionMatrixLocation = glGetUniformLocation(m_programID, "projection");
 
 		return true;
 	}
@@ -208,11 +209,22 @@ bool HM_Shader::compileShader(GLuint &shader, GLenum type,
 
 }
 
-void HM_Shader::sendMat4(std::string name, glm::mat4 matrix)
+void HM_Shader::sendMat4(const GLchar* name, const glm::mat4& matrix)
 {
 
-	glUniformMatrix4fv(m_matrixLocation, 1, GL_FALSE, value_ptr(matrix));
-
+	if (name == "modelview")
+	{
+		glUniformMatrix4fv(m_modelviewMatrixLocation, 1, GL_FALSE, value_ptr(matrix));
+	}
+	else if (name == "projection")
+	{
+		glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, value_ptr(matrix));
+	}
+	else
+	{
+		int matrixLocation = glGetUniformLocation(m_programID, name);
+		glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, value_ptr(matrix));
+	}
 }
 
 GLuint HM_Shader::getProgramID() const
