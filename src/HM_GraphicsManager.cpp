@@ -909,13 +909,13 @@ bool HM_GraphicsManager::isVisibleByCamera(HM_Cube const & boundingBox,
 	glm::vec3 closestPoint = hmm::getClosestPointOnBox(boundingBox + position, m_pMainCamera->getPosition());
 
 	glm::vec3 distanceVector = closestPoint - m_pMainCamera->getPosition();
-	float distanceSquared = glm::dot(distanceVector, distanceVector);
+	float distanceSquared = hmm::dotProduct(distanceVector, distanceVector);
 
 	if (distanceSquared > frustumFarLimitSquared)
 		return false;
 
 	// Check to see if the position is in front of the camera
-	if (glm::dot(m_pMainCamera->getOrientation(), distanceVector) <= 0.0f)
+	if (hmm::dotProduct(m_pMainCamera->getOrientation(), distanceVector) <= 0.0f)
 		return false;
 
 	return true;
@@ -960,7 +960,7 @@ void HM_GraphicsManager::drawMesh(HM_Mesh* const mesh,
 
 
 			if(translation != glm::vec3(0.0f))
-				modelview = glm::translate(modelview, translation);
+				hmm::translate(modelview, translation);
 
 			if (rotation != glm::vec3(0.0f))
 			{
@@ -975,7 +975,7 @@ void HM_GraphicsManager::drawMesh(HM_Mesh* const mesh,
 			}
 
 			if (scale != glm::vec3(1.0f, 1.0f, 1.0f))
-				modelview = glm::scale(modelview, scale);
+				hmm::scale(modelview, scale);
 
 			shaderToUse->sendMat4("modelview", modelview);
 			shaderToUse->sendMat4("projection", m_projection);

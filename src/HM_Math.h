@@ -29,6 +29,12 @@ namespace hmm
 	static glm::vec3 getClosestPointOnBox(const HM_Cube& box, const glm::vec3 point);
 	static glm::vec3 getClosestPointOnBox(const glm::vec3& boxMin, const glm::vec3& boxMax, const glm::vec3 point);
 
+	inline static float dotProduct(const glm::vec2& v1, const glm::vec2& v2);
+	inline static float dotProduct(const glm::vec3& v1, const glm::vec3& v2);
+
+	inline static void translate(glm::mat4& m, const glm::vec3& v);
+	inline static void scale(glm::mat4& m, const glm::vec3& v);
+
 	static glm::vec3 getClosestPointOnBox(const HM_Cube& box, const glm::vec3 point)
 	{
 		return getClosestPointOnBox(box.getMin(), box.getMax(), point);
@@ -43,6 +49,36 @@ namespace hmm
 		closestPoint.z = point.z < boxMin.z ? boxMin.z : (point.z > boxMax.z ? boxMax.z : point.z);
 
 		return closestPoint;
+	}
+
+	inline static float dotProduct(const glm::vec2& v1, const glm::vec2& v2)
+	{
+		return (v1.x * v2.x) + (v1.y * v2.y);
+	}
+
+	inline static float dotProduct(const glm::vec3& v1, const glm::vec3& v2)
+	{
+		return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+	}
+
+	inline static void translate(glm::mat4& m, const glm::vec3& v)
+	{
+		m[3] += (m[0] * v.x) + v.y * m[1] + v.z * m[2];
+	}
+
+	inline static void scale(glm::mat4& m, const glm::vec3& v)
+	{
+		m[0].x *= v.x;
+		m[0].y *= v.x;
+		m[0].z *= v.x;
+
+		m[1].x *= v.y;
+		m[1].y *= v.y;
+		m[1].z *= v.y;
+
+		m[2].x *= v.z;
+		m[2].y *= v.z;
+		m[2].z *= v.z;
 	}
 
 	static glm::vec3 rotateVertexOnX(glm::vec3 vertex, float angle)

@@ -49,13 +49,13 @@ public :
 
 		// --- Accessors ---
 	
-	glm::vec3 const & getPosition() const;
-	glm::vec3 const & getOrientation() const;
+	inline glm::vec3 const & getPosition() const;
+	inline glm::vec3 const & getOrientation() const;
 
-	float getSensibility() const;
-	float getSpeed() const;
+	inline float getSensibility() const;
+	inline float getSpeed() const;
 
-	void setSensibility(float sensibilite);
+	void setSensibility(float sensibility);
 	void setSpeed(float speed);
 
 	void setTargetPoint(glm::vec3 const & targetPoint);
@@ -112,3 +112,39 @@ private :
 
 };
 
+inline glm::vec3 const & HM_Camera::getPosition() const
+{
+
+	return m_position;
+
+}
+
+inline glm::vec3 const & HM_Camera::getOrientation() const
+{
+
+	return m_orientation;
+
+}
+
+/*		getSensibility
+*
+*		return : float -> speed at which the camera rotates
+*
+**/
+inline float HM_Camera::getSensibility() const
+{
+
+	return m_sensibility;
+
+}
+/*		getSpeed
+*
+*		return : float -> speed at which the camera moves
+*
+**/
+inline float HM_Camera::getSpeed() const
+{
+
+	return m_speed;
+
+}

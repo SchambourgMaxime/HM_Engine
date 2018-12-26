@@ -79,21 +79,6 @@ HM_Camera::~HM_Camera()
 {
 }
 
-
-glm::vec3 const & HM_Camera::getPosition() const
-{
-
-	return m_position;
-
-}
-
-glm::vec3 const & HM_Camera::getOrientation() const
-{
-
-	return m_orientation;
-
-}
-
 // --- ACCESSORS ---
 
 /*		setTargetPoint
@@ -179,29 +164,6 @@ void HM_Camera::setSpeed(float speed)
 {
 
 	m_speed = speed;
-
-}
-
-/*		getSensibility
-*
-*		return : float -> speed at which the camera rotates
-*
-**/
-float HM_Camera::getSensibility() const
-{
-
-	return m_sensibility;
-
-}
-/*		getSpeed
-*
-*		return : float -> speed at which the camera moves
-*
-**/
-float HM_Camera::getSpeed() const
-{
-
-	return m_speed;
 
 }
 
