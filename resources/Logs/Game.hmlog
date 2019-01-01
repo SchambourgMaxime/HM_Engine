@@ -1,0 +1,8 @@
+LOG ENTRY
+---------
+
+Game.hmlog
+
+entry ID	Time			File			LineNumber	Message						
+0		[Jan  1 2019 18:08:08]	hm_scene.cpp		92		HM_Scene::load() : Error : Couldn't find file for scene 'Scenes/scene2.hm'
+1		[Jan  1 2019 18:08:08]	hm_gamemaster.cpp	187		HM_GameMaster::launchGame() : Error : Can't load scene 'scene2'

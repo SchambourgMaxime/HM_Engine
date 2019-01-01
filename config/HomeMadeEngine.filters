@@ -128,9 +128,6 @@
     <ClInclude Include="..\src\HM_Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\HM_GameMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>

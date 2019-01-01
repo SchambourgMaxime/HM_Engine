@@ -1,4 +1,5 @@
 #include "HM_Shader.h"
+#include "HM_Path.h"
 
 std::map<std::string, GLuint> HM_Shader::vertexShaderLoaded;
 std::map<std::string, GLuint> HM_Shader::fragmentShaderLoaded;
@@ -141,7 +142,7 @@ bool HM_Shader::compileShader(GLuint &shader, GLenum type,
 
 		}
 
-		std::ifstream file(sourceFile.c_str());
+		std::ifstream file(HM_Path(sourceFile.c_str()).getAbsolutePath());
 
 		if (!file)
 		{

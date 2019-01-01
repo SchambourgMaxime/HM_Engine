@@ -37,9 +37,10 @@ std::list<std::string> HM_FileHandler::m_listOfOpenedFiles;
 *			- replaceExistingFile	(bool)		: if opened for writing, set to true to delete existing
 *												> file with the same name
 **/
-HM_FileHandler::HM_FileHandler(const std::string &filePath,
+HM_FileHandler::HM_FileHandler(const HM_Path& filePath,
 							   unsigned int ReadWriteRights,
 							   bool replaceExistingFile)
+							   : m_filePath("")
 {
 
 	if(filePath != "" && ReadWriteRights != HM_FILE_NULL)
@@ -59,7 +60,7 @@ HM_FileHandler::~HM_FileHandler()
 		m_fileContent.clear();
 
 	// the file path is removed from the list of opened files
-	m_listOfOpenedFiles.remove(m_filePath);
+	m_listOfOpenedFiles.remove(m_filePath.getAbsolutePath());
 }
 
 /*		isValid
@@ -94,7 +95,7 @@ bool HM_FileHandler::isValid() const
 *		return : bool -> indicates if the file has succesfully loaded or not
 *		
 **/
-bool HM_FileHandler::openFile(const std::string &filePath,
+bool HM_FileHandler::openFile(const HM_Path &filePath,
 							  unsigned int readWriteRights,
 							  bool replaceExistingFile)
 {
@@ -103,7 +104,7 @@ bool HM_FileHandler::openFile(const std::string &filePath,
 	m_readWriteRights = readWriteRights;
 
 	// Check to see if file is not already opened
-	if (std::find(m_listOfOpenedFiles.begin(), m_listOfOpenedFiles.end(), filePath) == m_listOfOpenedFiles.end())
+	if (std::find(m_listOfOpenedFiles.begin(), m_listOfOpenedFiles.end(), filePath.getAbsolutePath()) == m_listOfOpenedFiles.end())
 	{
 		// if file is not opened...
 
@@ -121,7 +122,7 @@ bool HM_FileHandler::openFile(const std::string &filePath,
 		}
 
 		// We store the path to the file to indicate it is already opened
-		m_listOfOpenedFiles.push_back(m_filePath);
+		m_listOfOpenedFiles.push_back(m_filePath.getAbsolutePath());
 
 	}
 	else
@@ -130,7 +131,7 @@ bool HM_FileHandler::openFile(const std::string &filePath,
 
 		// Error message
 		std::cout << "Error : Can't open the same file twice. File : " << m_filePath << std::endl; 
-		fprintf(stderr, "Error : Can't open the same file twice. File : %s \n", m_filePath.c_str());
+		fprintf(stderr, "Error : Can't open the same file twice. File : %s \n", m_filePath.getAbsolutePath().c_str());
 
 		// The object isn't set
 		m_filePath = "";
@@ -161,7 +162,7 @@ const std::list<std::string>& HM_FileHandler::getListOfOpenedFiles() const
 *		return : string -> the path to the file opened now
 *
 **/
-const std::string& HM_FileHandler::getFilePath() const
+const HM_Path& HM_FileHandler::getFilePath() const
 {
 	return m_filePath;
 }
@@ -531,7 +532,7 @@ void HM_FileHandler::flushTextToFile()
 	if (!checkReadWriteRights(HM_FILE_WRITE))
 		return;
 
-	std::ofstream outFile(m_filePath);
+	std::ofstream outFile(m_filePath.getAbsolutePath());
 
 	std::list<std::string>::iterator iter;
 
@@ -558,7 +559,7 @@ bool HM_FileHandler::loadFileInStringList()
 	if(m_fileContent.size() > 0)
 		m_fileContent.clear();
 
-	std::ifstream fileTemp(m_filePath);
+	std::ifstream fileTemp(m_filePath.getAbsolutePath());
 
 	if (fileTemp)
 	{
@@ -594,12 +595,12 @@ bool HM_FileHandler::loadFileInStringList()
 **/
 bool HM_FileHandler::checkFileCreation()
 {
-	std::ofstream testFile(m_filePath);
+	std::ofstream testFile(m_filePath.getAbsolutePath());
 
 	if (!testFile)
 	{
 		std::cout << "Error : File \'" << m_filePath << "\' could not be created (Check if hierarchy exists)" << std::endl;
-		fprintf(stderr, "Error : File \'%s\' could not be created (Check if hierarchy exists)\n", m_filePath.c_str());
+		fprintf(stderr, "Error : File \'%s\' could not be created (Check if hierarchy exists)\n", m_filePath.getAbsolutePath().c_str());
 
 		m_filePath = "";
 		m_readWriteRights = HM_FILE_NULL;
@@ -631,7 +632,7 @@ std::list<std::string> HM_FileHandler::getPortionOfFilecontent(int startLine, in
 		(startLine >= static_cast<int>(m_fileContent.size()) || finishLine >= static_cast<int>(m_fileContent.size())))
 	{
 		std::cout << "Error : Can't read lines of file \'" << m_filePath << "\' under 0 or over the number of existing lines" << std::endl;
-		fprintf(stderr, "Error : Can't read lines of file \'%s\' under 0 or over the number of existing lines\n", m_filePath.c_str());
+		fprintf(stderr, "Error : Can't read lines of file \'%s\' under 0 or over the number of existing lines\n", m_filePath.getAbsolutePath().c_str());
 
 		return std::list<std::string>(0);
 	}
@@ -675,7 +676,7 @@ void HM_FileHandler::checkStringListFormating(std::list<std::string>* listToChec
 		{
 
 			std::cout << "Warning : passing list of string with string possessing the \'\\n\' character in file : " << m_filePath << std::endl;
-			fprintf(stderr, "Error : Warning : passing list of string with string possessing the \'\\n\' character in file : %s\n", m_filePath.c_str());
+			fprintf(stderr, "Error : Warning : passing list of string with string possessing the \'\\n\' character in file : %s\n", m_filePath.getAbsolutePath().c_str());
 
 			std::list<std::string> stringAsList = hmu::turnStringIntoStringList(currentString);
 
@@ -705,7 +706,7 @@ bool HM_FileHandler::checkReadWriteRights(unsigned int readWriteRights) const
 	case HM_FILE_NULL:
 
 		std::cout << "Error : File \'" << m_filePath << "\' is not initialized or has no rights";
-		fprintf(stderr, "Error : File \'%s\' is not initialized or has no rights\n", m_filePath.c_str());
+		fprintf(stderr, "Error : File \'%s\' is not initialized or has no rights\n", m_filePath.getAbsolutePath().c_str());
 
 		return false;
 
@@ -717,7 +718,7 @@ bool HM_FileHandler::checkReadWriteRights(unsigned int readWriteRights) const
 		if (!(readWriteRights == HM_FILE_READ))
 		{
 			std::cout << "Error : Can't read file \'" << m_filePath << "\' opened for writing only";
-			fprintf(stderr, "Error : Can't read file \'%s\' opened for writing only\n", m_filePath.c_str());
+			fprintf(stderr, "Error : Can't read file \'%s\' opened for writing only\n", m_filePath.getAbsolutePath().c_str());
 
 			return false;
 		}
@@ -728,7 +729,7 @@ bool HM_FileHandler::checkReadWriteRights(unsigned int readWriteRights) const
 		if (!(readWriteRights == HM_FILE_WRITE))
 		{
 			std::cout << "Error : Can't write in file \"" << m_filePath << "\" opened for read only";
-			fprintf(stderr, "Error : Can't write in file \'%s\' opened for read only\n", m_filePath.c_str());
+			fprintf(stderr, "Error : Can't write in file \'%s\' opened for read only\n", m_filePath.getAbsolutePath().c_str());
 
 			return false;
 		}

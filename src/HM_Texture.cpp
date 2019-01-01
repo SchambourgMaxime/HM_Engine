@@ -16,6 +16,7 @@
 
 #include "HM_Texture.h"
 #include "HM_GraphicsManager.h"
+#include "HM_Path.h"
 
 
 
@@ -62,7 +63,7 @@ bool HM_Texture::load()
 {
 
 	// Loading the image in a SDL_Surface
-	SDL_Surface* imageSDL = IMG_Load(m_imageFile.c_str());
+	SDL_Surface* imageSDL = IMG_Load(HM_Path(m_imageFile.c_str()).getAbsolutePath().c_str());
 
 	if (imageSDL == 0)
 	{

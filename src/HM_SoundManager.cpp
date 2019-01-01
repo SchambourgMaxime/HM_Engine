@@ -38,7 +38,7 @@ HM_SoundManager::HM_SoundManager()
 		return;
 	}
 
-	music2 = Mix_LoadMUS("Azureflux_-_06_-_Catnip.mp3");
+	music2 = Mix_LoadMUS(HM_Path("Azureflux_-_06_-_Catnip.mp3").getAbsolutePath().c_str());
 	Mix_VolumeMusic(40);
 
 	Mix_PlayMusic(music2, -1);
@@ -100,8 +100,7 @@ Mix_Chunk* HM_SoundManager::loadSFX(std::string sfxFilePath)
 
 	if (iter == m_mapOfLoadedSFX.end())
 	{
-
-		sfxToReturn = Mix_LoadWAV(sfxFilePath.c_str());
+		sfxToReturn = Mix_LoadWAV(HM_Path(sfxFilePath).getAbsolutePath().c_str());
 		Mix_VolumeChunk(sfxToReturn, MIX_MAX_VOLUME);
 
 		if (sfxToReturn)

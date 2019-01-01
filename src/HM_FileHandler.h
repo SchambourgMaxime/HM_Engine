@@ -25,6 +25,7 @@
 
 #include "HM_Object.h"
 #include "HM_Utilities.h"
+#include "HM_Path.h"
 
 #define HM_FILE_NULL 0
 #define HM_FILE_READ 1
@@ -48,7 +49,7 @@ public:
 			/** Public functions **/
 
 	// Constructor
-	HM_FileHandler(std::string const &filePath = "", 
+	HM_FileHandler(HM_Path const &filePath = HM_Path(""),
 				   unsigned int ReadWriteRights = HM_FILE_NULL,
 				   bool replaceExistingFile = false);
 	// Destructor
@@ -58,13 +59,13 @@ public:
 	virtual bool isValid() const override;
 
 	// Opens a file and loads its content in the list of lines
-	bool openFile(std::string const &filePath, unsigned int readWriteRights, 
+	bool openFile(HM_Path const &filePath, unsigned int readWriteRights,
 				  bool replaceExistingFile);
 
 		// --- Accessors ---
 
 	std::list<std::string> const & getListOfOpenedFiles() const;
-	std::string const & getFilePath() const;
+	HM_Path const & getFilePath() const;
 	unsigned int getReadWriteRights() const;	
 	unsigned int getFileNumberOfLines() const;
 
@@ -138,7 +139,7 @@ private:
 	static std::list<std::string> m_listOfOpenedFiles;
 
 	// Path of the file to read or write
-	std::string m_filePath;
+	HM_Path m_filePath;
 
 	// Decides if the file can be read, written or both 
 	unsigned int m_readWriteRights;
