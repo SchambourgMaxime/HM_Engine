@@ -1,3 +1,14 @@
 # Generated files
 *.obj
 *.exe
+*.ilk
+*.pdb
+
+*intermediate/*
+
+*.hmlog
+
+*.suo
+*.VC.db
+*.VC.opendb
+*.ipch
