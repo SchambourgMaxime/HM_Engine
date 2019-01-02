@@ -267,7 +267,7 @@ void HM_Sprite::loadFrames(std::list<std::string> const & descr,
 				while (current.find('}') == -1)
 				{
 
-					int keyEnd = current.find_first_of('=');
+					size_t keyEnd = current.find_first_of('=');
 
 					if (keyEnd != -1)
 					{
@@ -328,7 +328,7 @@ void HM_Sprite::loadTimelines(std::list<std::string> const & descr)
 				while (current.find('}') == -1)
 				{
 
-					int keyEnd = current.find_first_of('=');
+					size_t keyEnd = current.find_first_of('=');
 
 					if (keyEnd != -1)
 					{

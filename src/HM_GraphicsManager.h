@@ -207,28 +207,28 @@ private:
 
 
 	// Number of coords in all stored meshes
-	unsigned int m_nbCoords_Static;
+	size_t m_nbCoords_Static;
 	// Number of texCoords in all stored meshes
-	unsigned int m_nbTexCoords_Static;
+	size_t m_nbTexCoords_Static;
 	// Number of coords in all stored meshes
-	unsigned int m_nbCoords_Dynamic;
+	size_t m_nbCoords_Dynamic;
 	// Number of texCoords in all stored meshes
-	unsigned int m_nbTexCoords_Dynamic;
+	size_t m_nbTexCoords_Dynamic;
 	// Number of indices in all stored meshes
-	unsigned int m_nbIndices;
+	size_t m_nbIndices;
 
 	// Size of all the vertices stored in bytes
-	unsigned int m_bytesSizeCoords_Static;
+	size_t m_bytesSizeCoords_Static;
 	// Size of all the vertices stored in bytes
-	unsigned int m_bytesSizeCoords_Dynamic;
+	size_t m_bytesSizeCoords_Dynamic;
 
 	// Size of all the texture coordinates stored in bytes
-	unsigned int m_bytesSizeTexCoords_Static;
+	size_t m_bytesSizeTexCoords_Static;
 	// Size of all the texture coordinates stored in bytes
-	unsigned int m_bytesSizeTexCoords_Dynamic;
+	size_t m_bytesSizeTexCoords_Dynamic;
 
 	// Size of all triangle indices stored in bytes
-	unsigned int m_bytesSizeIndices;
+	size_t m_bytesSizeIndices;
 
 	std::vector<GLfloat> m_coordsArray_Static;
 	std::vector<GLfloat> m_texCoordsArray_Static;

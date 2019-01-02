@@ -151,32 +151,32 @@ public:
 
 		// --- Accessors ---
 
-	unsigned int getNumberCoords() const;
-	unsigned int getNumberTexCoords() const;
-	unsigned int getNumberIndices() const;
+	size_t getNumberCoords() const;
+	size_t getNumberTexCoords() const;
+	size_t getNumberIndices() const;
 
-	unsigned int getByteSizeCoords() const;
-	unsigned int getByteSizeTexCoords() const;
-	unsigned int getByteSizeIndices() const;
+	size_t getByteSizeCoords() const;
+	size_t getByteSizeTexCoords() const;
+	size_t getByteSizeIndices() const;
 
 	unsigned char getChangeFrequencyCoords() const;
 	unsigned char getChangeFrequencyTexCoords() const;
 
-	unsigned int getVBOBytesOffsetCoords() const;
-	unsigned int getVBOBytesOffsetTexCoords() const;
-	unsigned int getVBOBytesOffsetIndices() const;
+	size_t getVBOBytesOffsetCoords() const;
+	size_t getVBOBytesOffsetTexCoords() const;
+	size_t getVBOBytesOffsetIndices() const;
 
 	HM_Cube const & getBoundingBox() const;
 
 	void setChangeFrequencyCoords(bool dynamic = true);
 	void setChangeFrequencyTexCoords(bool dynamic = true);
 
-	void setVBOBytesOffsetCoords(unsigned int vboOffsetCoords);
-	void setVBOBytesOffsetTexCoords(unsigned int vboOffsetTexCoords);
-	void setVBOBytesOffsetIndices(unsigned int vboOffsetIndices);
+	void setVBOBytesOffsetCoords(size_t vboOffsetCoords);
+	void setVBOBytesOffsetTexCoords(size_t vboOffsetTexCoords);
+	void setVBOBytesOffsetIndices(size_t vboOffsetIndices);
 
-	void setOriginalVBOBytesOffsetCoords(unsigned int originalVBOOffsetCoords);
-	void setOriginalVBOBytesOffsetTexCoords(unsigned int originalVBOOffsetTexCoords);
+	void setOriginalVBOBytesOffsetCoords(size_t originalVBOOffsetCoords);
+	void setOriginalVBOBytesOffsetTexCoords(size_t originalVBOOffsetTexCoords);
 
 	HM_Vertex* const getVertexAtIndex(unsigned int index) const;
 	int getVertexIndex(HM_Vertex const & vertex) const;
@@ -215,30 +215,30 @@ protected:
 
 
 	// Number of vertices
-	unsigned int m_nbCoords;
+	size_t m_nbCoords;
 	// Number of UV coordinates
-	unsigned int m_nbTexCoords;
+	size_t m_nbTexCoords;
 	// Number of triangles
-	unsigned int m_nbIndices;
+	size_t m_nbIndices;
 
 	// Size of all vertices in bytes
-	unsigned int m_byteSizeCoords;
+	size_t m_byteSizeCoords;
 	// Size of all texture coordinates in bytes
-	unsigned int m_byteSizetexCoords;
+	size_t m_byteSizetexCoords;
 	// Size of all indices in bytes
-	unsigned int m_byteSizeIndices;
+	size_t m_byteSizeIndices;
 
 	// Position of the coords in the graphics VBO
-	int m_vboBytesOffsetCoords;
+	size_t m_vboBytesOffsetCoords;
 	// Position of the texCoords in the graphics VBO
-	int m_vboBytesOffsetTexCoords;
+	size_t m_vboBytesOffsetTexCoords;
 	// Position of the indices in the graphics VBO
-	int m_vboBytesOffsetIndices;
+	size_t m_vboBytesOffsetIndices;
 
 	// Position of the coords in the graphics VBO
-	int m_originalVBOBytesOffsetCoords;
+	size_t m_originalVBOBytesOffsetCoords;
 	// Position of the texCoords in the graphics VBO
-	int m_originalVBOBytesOffsetTexCoords;
+	size_t m_originalVBOBytesOffsetTexCoords;
 
 	unsigned char m_changeFrequencyCoords;
 	unsigned char m_changeFrequencyTexCoords;

@@ -176,42 +176,42 @@ HM_Mesh::~HM_Mesh()
 {
 }
 
-unsigned int HM_Mesh::getNumberCoords() const
+size_t HM_Mesh::getNumberCoords() const
 {
 
 	return m_nbCoords;
 
 }
 
-unsigned int HM_Mesh::getNumberIndices() const
+size_t HM_Mesh::getNumberIndices() const
 {
 
 	return m_nbIndices;
 
 }
 
-unsigned int HM_Mesh::getNumberTexCoords() const
+size_t HM_Mesh::getNumberTexCoords() const
 {
 
 	return m_nbTexCoords;
 
 }
 
-unsigned int HM_Mesh::getByteSizeCoords() const
+size_t HM_Mesh::getByteSizeCoords() const
 {
 
 	return m_byteSizeCoords;
 
 }
 
-unsigned int HM_Mesh::getByteSizeIndices() const
+size_t HM_Mesh::getByteSizeIndices() const
 {
 
 	return m_byteSizeIndices;
 
 }
 
-unsigned int HM_Mesh::getByteSizeTexCoords() const
+size_t HM_Mesh::getByteSizeTexCoords() const
 {
 
 	return m_byteSizetexCoords;
@@ -232,21 +232,21 @@ unsigned char HM_Mesh::getChangeFrequencyTexCoords() const
 
 }
 
-unsigned int HM_Mesh::getVBOBytesOffsetCoords() const
+size_t HM_Mesh::getVBOBytesOffsetCoords() const
 {
 
 	return m_vboBytesOffsetCoords;
 
 }
 
-unsigned int HM_Mesh::getVBOBytesOffsetTexCoords() const
+size_t HM_Mesh::getVBOBytesOffsetTexCoords() const
 {
 
 	return m_vboBytesOffsetTexCoords;
 
 }
 
-unsigned int HM_Mesh::getVBOBytesOffsetIndices() const
+size_t HM_Mesh::getVBOBytesOffsetIndices() const
 {
 
 	return m_vboBytesOffsetIndices;
@@ -280,35 +280,35 @@ void HM_Mesh::setChangeFrequencyTexCoords(bool dynamic /*= true*/)
 
 }
 
-void HM_Mesh::setVBOBytesOffsetCoords(unsigned int vboOffsetCoords)
+void HM_Mesh::setVBOBytesOffsetCoords(size_t vboOffsetCoords)
 {
 
 	m_vboBytesOffsetCoords = vboOffsetCoords;
 
 }
 
-void HM_Mesh::setVBOBytesOffsetTexCoords(unsigned int vboOffsetTexCoords)
+void HM_Mesh::setVBOBytesOffsetTexCoords(size_t vboOffsetTexCoords)
 {
 
 	m_vboBytesOffsetTexCoords = vboOffsetTexCoords;
 
 }
 
-void HM_Mesh::setVBOBytesOffsetIndices(unsigned int vboOffsetIndices)
+void HM_Mesh::setVBOBytesOffsetIndices(size_t vboOffsetIndices)
 {
 
 	m_vboBytesOffsetIndices = vboOffsetIndices;
 
 }
 
-void HM_Mesh::setOriginalVBOBytesOffsetCoords(unsigned int originalVBOOffsetCoords)
+void HM_Mesh::setOriginalVBOBytesOffsetCoords(size_t originalVBOOffsetCoords)
 {
 
 	m_originalVBOBytesOffsetCoords = originalVBOOffsetCoords;
 
 }
 
-void HM_Mesh::setOriginalVBOBytesOffsetTexCoords(unsigned int originalVBOOffsetTexCoords)
+void HM_Mesh::setOriginalVBOBytesOffsetTexCoords(size_t originalVBOOffsetTexCoords)
 {
 
 	m_originalVBOBytesOffsetTexCoords = originalVBOOffsetTexCoords;
@@ -404,7 +404,7 @@ void HM_Mesh::draw(HM_Texture* texture)
 		if(texture)
 			glBindTexture(GL_TEXTURE_2D, texture->getID());
 
-			glDrawElements(GL_TRIANGLES, m_nbIndices, GL_UNSIGNED_INT,
+			glDrawElements(GL_TRIANGLES, (GLsizei)m_nbIndices, GL_UNSIGNED_INT,
 						   BUFFER_OFFSET(m_vboBytesOffsetIndices));
 
 		if(texture)

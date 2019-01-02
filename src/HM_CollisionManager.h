@@ -27,7 +27,7 @@
 struct BoxCollider
 {
 
-	unsigned int id;
+	size_t id;
 
 	HM_Cube collider;
 	bool isTrigger;
@@ -45,7 +45,7 @@ public:
 	HM_CollisionManager();
 	~HM_CollisionManager();
 
-	unsigned int createNewBoxCollider(HM_Cube collider,
+	size_t createNewBoxCollider(HM_Cube collider,
 		bool isTrigger,
 		HM_SceneObject* owner);
 

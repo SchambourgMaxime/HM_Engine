@@ -53,14 +53,14 @@ public:
 			glm::vec3(500.0f, 500.0f, 500.0f)));
 	~HM_Octree();
 
-	unsigned int addElement(HM_Cube const & element);
+	size_t addElement(HM_Cube const & element);
 
 	void makeTree();
 
 private:
 	/** Private functions **/
 
-	unsigned int recursiveBuild(Node* start);
+	size_t recursiveBuild(Node* start);
 
 	void divideNode(Node* node);
 

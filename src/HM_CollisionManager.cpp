@@ -32,7 +32,7 @@ HM_CollisionManager::~HM_CollisionManager()
 {
 }
 
-unsigned int HM_CollisionManager::createNewBoxCollider(HM_Cube collider,
+size_t HM_CollisionManager::createNewBoxCollider(HM_Cube collider,
 	bool isTrigger,
 	HM_SceneObject* owner)
 {
@@ -47,6 +47,6 @@ unsigned int HM_CollisionManager::createNewBoxCollider(HM_Cube collider,
 
 	m_colliders.push_back(boxCollider);
 
-	return (unsigned int)m_colliders.size() - 1;
+	return m_colliders.size() - 1;
 
 }

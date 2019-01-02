@@ -124,7 +124,7 @@ private:
 	bool checkFileCreation();
 
 	// Allows to get a portion of the file content as list of strings
-	std::list<std::string> getPortionOfFilecontent(int startLine, int finishLine) const;
+	std::list<std::string> getPortionOfFilecontent(size_t startLine, size_t finishLine) const;
 
 	// Checks if a list of string does not contain any '\n'
 	void checkStringListFormating(std::list<std::string>* listToCheck);

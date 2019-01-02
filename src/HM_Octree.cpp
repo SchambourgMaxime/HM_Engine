@@ -35,7 +35,7 @@ HM_Octree::~HM_Octree()
 {
 }
 
-unsigned int HM_Octree::addElement(HM_Cube const & element)
+size_t HM_Octree::addElement(HM_Cube const & element)
 {
 
 	if(element.getXMin() < m_root.region.getXMin())
@@ -70,7 +70,7 @@ void HM_Octree::makeTree()
 
 }
 
-unsigned int HM_Octree::recursiveBuild(Node* node)
+size_t HM_Octree::recursiveBuild(Node* node)
 {
 
 	if(node->elements.size() == 0U)

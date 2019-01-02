@@ -623,7 +623,7 @@ bool HM_FileHandler::checkFileCreation()
 *
 *		return : list<string> -> list of lines between given line numbers
 **/
-std::list<std::string> HM_FileHandler::getPortionOfFilecontent(int startLine, int finishLine) const
+std::list<std::string> HM_FileHandler::getPortionOfFilecontent(size_t startLine, size_t finishLine) const
 {
 	if (startLine != -1 && finishLine == -1)
 		finishLine = m_fileContent.size() - 1;
@@ -643,7 +643,7 @@ std::list<std::string> HM_FileHandler::getPortionOfFilecontent(int startLine, in
 	if(startLine != 0)
 		std::advance(iter, startLine);
 
-	for(int i = startLine;iter != m_fileContent.end() && i <= finishLine; iter++, i++)
+	for(size_t i = startLine; iter != m_fileContent.end() && i <= finishLine; iter++, i++)
 	{
 		std::string currentString = *iter;
 		portionOfFileContent.push_back(currentString);

@@ -137,7 +137,7 @@ void HM_Log::addLineToLog(std::string message, std::string fileName, std::string
 	_itoa_s(lineNumber, bufferLineNumber, 10);
 
 	std::string fileNameShown;
-	int offset = 0;
+	size_t offset = 0;
 	bool fileNameTooLong = false;
 
 	if ((offset = fileName.find_last_of('\\')) != -1)
