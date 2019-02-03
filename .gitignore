@@ -11,3 +11,5 @@
 *.VC.db
 *.VC.opendb
 *.ipch
+*.iobj
+*.ipdb
